@@ -1,0 +1,46 @@
+# ==========================================
+# 1. Operating System Clutter
+# ==========================================
+.DS_Store
+Thumbs.db
+*.log
+
+# ==========================================
+# 2. Python / Machine Learning
+# ==========================================
+**/__pycache__/
+*.pyc
+dix/
+venv/
+.venv/
+.ipynb_checkpoints/
+
+# ==========================================
+# 3. C# & Blazor (.NET Ecosystem)
+# ==========================================
+[Bb]in/
+[Oo]bj/
+.vs/
+.vscode/
+*.user
+*.suo
+# Blazor/Web specific publishing/test junk
+_ReSharper*/
+[Ww]wwroot/dist/
+App_Data/
+
+# ==========================================
+# 4. C & C++ (Compilers & Build Systems)
+# ==========================================
+# Compiled Object files
+*.o
+*.obj
+*.out
+
+# Executables (Windows & Mac/Linux outputs)
+*.exe
+*.app
+
+# Build directories (if you use CMake or Makefiles)
+[Bb]uild/
+[Cc]make-build-*/
