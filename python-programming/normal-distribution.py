@@ -12,3 +12,6 @@ num = 2 * st_dev_square
 
 kern = np.exp(-distance_squared/ num)
 
+gauss = go.Figure()
+gauss.add_trace(go.Scatter(x=X, y=kern, mode='lines'))
+gauss.show()
