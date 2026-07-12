@@ -1,11 +1,14 @@
-import numpy as np
 import plotly.graph_objects as go
+import numpy as np
 
 X = np.linspace(-5, 5, num=100)
 
-Y = X ** 2
+mu = 0
+sigma = 1
+st_dev_square = sigma ** 2
 
-fig = go.Figure()
-fig.add_trace(go.Scatter(x=X, y=Y, mode='lines', name='y = x^2'))
-fig.update_layout(title='Normal Distribution', xaxis_title='X', yaxis_title='Y', showlegend=True)
-fig.show()
+distance_squared = np.square(X - mu)
+num = 2 * st_dev_square
+
+kern = np.exp(-distance_squared/ num)
+
