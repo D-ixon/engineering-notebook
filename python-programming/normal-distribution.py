@@ -10,9 +10,9 @@ st_dev_square = sigma ** 2
 distance_squared = np.square(X - mu)
 denominator = 2 * st_dev_square
 
-kernel = np.exp(-distance_squared/ denominator)
+gaussian_shape = np.exp(-distance_squared/ denominator)
 
 gauss = go.Figure()
-gauss.add_trace(go.Scatter(x=X, y=kernel, mode='lines'))
+gauss.add_trace(go.Scatter(x=X, y=gaussian_shape, mode='lines'))
 gauss.update_layout(title = "Gaussian (Normal) Distribution", xaxis_title = "X values", yaxis_title = "the kernel")
 gauss.show()
