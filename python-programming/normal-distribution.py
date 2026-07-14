@@ -5,21 +5,30 @@ import numpy as np
 #shade area under the curve 
 
 X = np.linspace(-5, 5, num=100)
-    
-mu = 0
-sigma = 1
-st_dev_square = sigma ** 2   
-di_pi = np.pi * 2
+
+mu = 1
+two_pi = np.pi * 2
+sigmas = [0.5, 1, 2]
 
 distance_squared = np.square(X - mu)
-denominator = 2 * st_dev_square
-gaussian_shape = np.exp(-distance_squared/ denominator)
-
-normalization_constant = 1 / (sigma * np.sqrt(di_pi))
-
-full_pdf = normalization_constant * gaussian_shape
 
 gauss = go.Figure()
-gauss.add_trace(go.Scatter(x=X, y=full_pdf, mode='lines', name='Gaussian Distribution', line=dict(color='blue')))
+
+for sigma in sigmas:
+    
+    sigma_square = sigma ** 2   
+
+    denominator = 2 * sigma_square
+
+    normalization_constant = 1 / (sigma * np.sqrt(two_pi))
+
+    gaussian_shape = np.exp(-distance_squared/ denominator)
+
+    probability_density = normalization_constant * gaussian_shape
+
+    gauss.add_trace(go.Scatter(x=X, y=probability_density, mode='lines', name=(f" 𝜎 = {sigma}"), line=dict(color='red')))
+
+
+
 gauss.update_layout(title = "Gaussian (Normal) Distribution", xaxis_title = "X values", yaxis_title = "the kernel")
 gauss.show()
