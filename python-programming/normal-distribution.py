@@ -4,11 +4,14 @@ import numpy as np
 #sliders for mu and sigma
 #shade area under the curve 
 
-X = np.linspace(-5, 5, num=100)
+#making it 3D using axes for x = variables, y = mean(μ), and z = the probability density function (PDF)
 
-mus = [-3, 0, 2]
+X = np.linspace(-5, 5, num=100)
+mus = np.linspace(-5, 5, num=100)
 two_pi = np.pi * 2
-sigmas = [0.5, 1, 2]
+sigma = 1
+
+X_grid, mu_grid = np.meshgrid(X, mus)
 
 def gaussian_pdf(x, mu, sigma):
     sigma_square = sigma ** 2
@@ -20,16 +23,11 @@ def gaussian_pdf(x, mu, sigma):
 
     return probability_density
 
+
+Z = gaussian_pdf(X_grid, mu_grid, sigma)
+
+
 gauss = go.Figure()
-
-for sigma in sigmas:
-    
-    for mu in mus:
-
-        probability_density = gaussian_pdf(X, mu, sigma)
-
-        gauss.add_trace(go.Scatter(x=X, y=probability_density, mode='lines', name=(f" 𝜎, μ = {sigma, mu}")))
-
-
-gauss.update_layout(title = "Gaussian (Normal) Distribution", xaxis_title = "X values", yaxis_title = "the kernel")
+gauss.add_trace(go.Surface(x = X_grid, y = mu_grid, z = Z, name = (f" 𝜎 = {sigma}")))
+gauss.update_layout(title = "Gaussian (Normal) Distribution", xaxis_title = "X values", yaxis_title = "gaussian pdf")
 gauss.show()
