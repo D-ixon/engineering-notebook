@@ -1,1 +1,0 @@
-print("introducing curves to minimize the cost function of my model")
