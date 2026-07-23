@@ -14,6 +14,10 @@ dix/
 venv/
 .venv/
 .ipynb_checkpoints/
+include/
+lib/
+share/
+*.cfg
 
 # ==========================================
 # 3. C# & Blazor (.NET Ecosystem)
@@ -29,12 +33,16 @@ _ReSharper*/
 [Ww]wwroot/dist/
 App_Data/
 
+hex/
+
 # ==========================================
 # 4. C & C++ (Compilers & Build Systems)
 # ==========================================
 # Compiled Object files
 *.o
 *.obj
+build/
+lib/
 *.out
 
 # Executables (Windows & Mac/Linux outputs)
