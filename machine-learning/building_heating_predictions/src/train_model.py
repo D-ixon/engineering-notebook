@@ -2,7 +2,7 @@ import numpy as np
 
 def train_model(X, y, alpha, iterations):
     m, n = X.shape
-    theta = np.zeros(n)
+    theta = np.zeros(n) #setting initial weights to zero
     loss_history = []
     
     for i in range(iterations):
@@ -20,4 +20,4 @@ def train_model(X, y, alpha, iterations):
         
     return theta, loss_history
 
-print("\n DEBUG: train_model.py was loaded successfully ")
+print("\n train_model.py was loaded successfully ")
