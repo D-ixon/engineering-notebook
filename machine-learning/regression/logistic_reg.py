@@ -1,9 +1,6 @@
 import numpy as np
 import pandas as pd
 
-# ==========================================
-# 1. THE ALGORITHM (NumPy)
-# ==========================================
 class LogisticRegression:
     def __init__(self, learning_rate=0.01, n_iterations=1000):
         self.learning_rate = learning_rate
@@ -45,9 +42,6 @@ class LogisticRegression:
         return np.array([1 if p >= threshold else 0 for p in probabilities])
 
 
-# ==========================================
-# 2. THE DATA PIPELINE (Pandas + NumPy)
-# ==========================================
 def train_model_from_csv(file_path, target_column_name=None):
     """
     Loads a CSV using Pandas, preprocesses it, and trains the NumPy model.
@@ -98,9 +92,6 @@ def train_model_from_csv(file_path, target_column_name=None):
     return model, mean, std
 
 
-# ==========================================
-# 3. EXECUTION & DUMMY DATA GENERATOR
-# ==========================================
 if __name__ == "__main__":
     # Create a quick dummy CSV file so this script runs out-of-the-box
     dummy_filename = "student_pass_data.csv"
