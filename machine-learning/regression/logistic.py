@@ -16,3 +16,15 @@ def process_data(train):
 
     return X, Y
 
+def sigmoid(weights, X):
+
+    y_hat = 1/ (1 + np.exp(-weights.dot(X)))
+
+    return y_hat
+
+#def gradient_ascent(X, y, y_hat, old_weights):
+
+    new_weights = old_weights + alpha * np.X.T.dot(y - y_hat)
+
+
+    return new_weights
