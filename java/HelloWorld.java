@@ -35,5 +35,9 @@ public class HelloWorld {
         // We use the getter method to read it back
         System.out.println(myDog.getBreed()); 
 
+        for (int i = 0; i < 5; i++) {
+            System.out.println("Iteration: " + i);
+        }
+
     }
 }
