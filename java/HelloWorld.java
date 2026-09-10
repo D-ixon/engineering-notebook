@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 class Dog {
     private String breed;
     public void setBreed(String newBreed){
@@ -11,22 +13,28 @@ class Dog {
 public class HelloWorld {
     public static void main(String[] args) {
 
-        int a = 5;
-        int b = 10;
-        int sum = a + b;
-        
-        if (sum > 10) {
-            System.out.println("The sum is greater than 10.");
-        } else {
-            System.out.println("The sum is 10 or less.");
-        }
-
         int[] array;
 
         array = new int[10];
 
         System.out.println(array.length);
 
+        array[0] = 1444;
+        array[1] = 100;
+        array[2] = 200;
+        array[3] = 300;
+        array[4] = 400;
+
+        ArrayList<Object> mixedlist = new ArrayList<>();
+        mixedlist.add("Name");
+        mixedlist.add(4);
+
+        System.out.println(mixedlist.get(0));
+        System.out.println(mixedlist.get(1));
+        System.out.println(array[0]);
+        for (int el : array) {
+            System.out.println(el);
+        }
         Dog myDog = new Dog();
         
         // We use the setter method to set the breed
