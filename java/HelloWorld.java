@@ -25,6 +25,12 @@ public class HelloWorld {
         array[3] = 300;
         array[4] = 400;
 
+        for (int i = 0; i < 5; i++){
+            if (i >= 2){
+                break;
+            }
+            System.out.println("loop");
+        }
         ArrayList<Object> mixedlist = new ArrayList<>();
         mixedlist.add("Name");
         mixedlist.add(4);
