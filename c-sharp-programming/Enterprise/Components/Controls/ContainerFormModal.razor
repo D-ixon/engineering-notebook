@@ -1,0 +1,85 @@
+@using Enterprise.Data.Models
+@using Enterprise.Data.Enums
+
+@if (IsOpen)
+{
+    <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-dark text-white">
+                    <h5 class="modal-title">
+                        @(IsEdit ? $"Edit Container: {Model.ContainerNumber}" : "Register New Container")
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" @onclick="Close"></button>
+                </div>
+
+                <EditForm Model="Model" OnValidSubmit="HandleValidSubmit">
+                    <DataAnnotationsValidator />
+                    <div class="modal-body">
+                        <ValidationSummary class="alert alert-danger" />
+
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Container Number</label>
+                                <InputText @bind-Value="Model.ContainerNumber" class="form-control" placeholder="e.g. MSKU-904123-8" />
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Sensor ID</label>
+                                <InputText @bind-Value="Model.AssignedSensorId" class="form-control" placeholder="e.g. IOT-8821" />
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Container Type</label>
+                                <InputSelect @bind-Value="Model.Type" class="form-select">
+                                    @foreach (var type in Enum.GetValues<ContainerType>())
+                                    {
+                                        <option value="@type">@type</option>
+                                    }
+                                </InputSelect>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Operational Status</label>
+                                <InputSelect @bind-Value="Model.Status" class="form-select">
+                                    @foreach (var status in Enum.GetValues<ContainerStatus>())
+                                    {
+                                        <option value="@status">@status</option>
+                                    }
+                                </InputSelect>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Max Payload (kg)</label>
+                                <InputNumber @bind-Value="Model.MaxPayloadKg" class="form-control" />
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Target Temp (°C)</label>
+                                <InputNumber @bind-Value="Model.TargetTempCelsius" class="form-control" step="0.5" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" @onclick="Close">Cancel</button>
+                        <button type="submit" class="btn btn-primary">
+                            @(IsEdit ? "Save Changes" : "Create Container")
+                        </button>
+                    </div>
+                </EditForm>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter] public bool IsOpen { get; set; }
+    [Parameter] public Container Model { get; set; } = new();
+    [Parameter] public bool IsEdit { get; set; }
+    [Parameter] public EventCallback<Container> OnSave { get; set; }
+    [Parameter] public EventCallback OnCancel { get; set; }
+
+    private async Task HandleValidSubmit() => await OnSave.InvokeAsync(Model);
+    private async Task Close() => await OnCancel.InvokeAsync();
+}

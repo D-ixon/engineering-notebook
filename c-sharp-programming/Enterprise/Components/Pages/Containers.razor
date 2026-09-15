@@ -1,0 +1,198 @@
+@page "/containers"
+@using Enterprise.Data.Models
+@using Enterprise.Data.Enums
+@using Enterprise.Services
+@using Enterprise.Components.Controls
+@rendermode InteractiveServer
+@inject IContainerService ContainerService
+
+<PageTitle>Container Registry - Enterprise</PageTitle>
+
+<div class="container-fluid py-3">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold m-0">📦 Container Registry</h2>
+            <p class="text-muted m-0">Manage global fleet, reefer thresholds, and IoT assignments</p>
+        </div>
+        <button class="btn btn-primary btn-lg" @onclick="OpenCreateModal">
+            + Register Container
+        </button>
+    </div>
+
+    <!-- Filter & Search Bar -->
+    <div class="card mb-4 shadow-sm">
+        <div class="card-body">
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <input type="text" class="form-control" placeholder="Search by container number or sensor ID..." 
+                           @bind="searchTerm" @bind:event="oninput" @onkeyup="FilterContainers" />
+                </div>
+                <div class="col-md-4">
+                    <select class="form-select" @onchange="OnStatusFilterChanged">
+                        <option value="">All Statuses</option>
+                        @foreach (var status in Enum.GetValues<ContainerStatus>())
+                        {
+                            <option value="@status">@status</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-md-2 d-grid">
+                    <button class="btn btn-outline-secondary" @onclick="ClearFilters">Reset</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Data Table -->
+    <div class="card shadow-sm">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Container Code</th>
+                        <th>Type</th>
+                        <th>Status</th>
+                        <th>Target Temp</th>
+                        <th>Max Payload</th>
+                        <th>Sensor ID</th>
+                        <th class="text-end">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (containers == null)
+                    {
+                        <tr><td colspan="7" class="text-center py-4">Loading fleet records...</td></tr>
+                    }
+                    else if (!containers.Any())
+                    {
+                        <tr><td colspan="7" class="text-center py-4 text-muted">No containers found matching criteria.</td></tr>
+                    }
+                    else
+                    {
+                        @foreach (var item in containers)
+                        {
+                            <tr>
+                                <td class="fw-bold font-monospace">@item.ContainerNumber</td>
+                                <td><span class="badge bg-secondary">@item.Type</span></td>
+                                <td>
+                                    <span class="badge @GetStatusBadgeClass(item.Status)">
+                                        @item.Status
+                                    </span>
+                                </td>
+                                <td>@item.TargetTempCelsius °C</td>
+                                <td>@item.MaxPayloadKg.ToString("N0") kg</td>
+                                <td><code class="text-primary fw-bold">@item.AssignedSensorId</code></td>
+                                <td class="text-end">
+                                    <button class="btn btn-sm btn-outline-primary me-1" @onclick="() => OpenEditModal(item)">Edit</button>
+                                    <button class="btn btn-sm btn-outline-danger" @onclick="() => ConfirmDelete(item.Id)">Delete</button>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<ContainerFormModal IsOpen="isModalOpen" Model="activeModel" IsEdit="isEditMode" OnSave="SaveContainer" OnCancel="CloseModal" />
+
+@code {
+    private List<Container>? containers;
+    private string searchTerm = string.Empty;
+    private ContainerStatus? selectedStatus;
+
+    private bool isModalOpen = false;
+    private bool isEditMode = false;
+    private Container activeModel = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadContainers();
+    }
+
+    private async Task LoadContainers()
+    {
+        containers = await ContainerService.GetContainersAsync(searchTerm, selectedStatus);
+    }
+
+    private async Task FilterContainers() => await LoadContainers();
+
+    private async Task OnStatusFilterChanged(ChangeEventArgs e)
+    {
+        if (Enum.TryParse<ContainerStatus>(e.Value?.ToString(), out var parsedStatus))
+        {
+            selectedStatus = parsedStatus;
+        }
+        else
+        {
+            selectedStatus = null;
+        }
+        await LoadContainers();
+    }
+
+    private async Task ClearFilters()
+    {
+        searchTerm = string.Empty;
+        selectedStatus = null;
+        await LoadContainers();
+    }
+
+    private void OpenCreateModal()
+    {
+        activeModel = new Container();
+        isEditMode = false;
+        isModalOpen = true;
+    }
+
+    private void OpenEditModal(Container container)
+    {
+        activeModel = new Container
+        {
+            Id = container.Id,
+            ContainerNumber = container.ContainerNumber,
+            Type = container.Type,
+            Status = container.Status,
+            MaxPayloadKg = container.MaxPayloadKg,
+            AssignedSensorId = container.AssignedSensorId,
+            TargetTempCelsius = container.TargetTempCelsius,
+            TempToleranceRange = container.TempToleranceRange,
+            LastServiced = container.LastServiced
+        };
+        isEditMode = true;
+        isModalOpen = true;
+    }
+
+    private async Task SaveContainer(Container model)
+    {
+        if (isEditMode)
+        {
+            await ContainerService.UpdateContainerAsync(model);
+        }
+        else
+        {
+            await ContainerService.CreateContainerAsync(model);
+        }
+
+        isModalOpen = false;
+        await LoadContainers();
+    }
+
+    private async Task ConfirmDelete(string id)
+    {
+        await ContainerService.DeleteContainerAsync(id);
+        await LoadContainers();
+    }
+
+    private void CloseModal() => isModalOpen = false;
+
+    private string GetStatusBadgeClass(ContainerStatus status) => status switch
+    {
+        ContainerStatus.Available => "bg-success",
+        ContainerStatus.InTransit => "bg-primary",
+        ContainerStatus.PortHold => "bg-warning text-dark",
+        ContainerStatus.Maintenance => "bg-danger",
+        ContainerStatus.Decommissioned => "bg-dark",
+        _ => "bg-secondary"
+    };
+}

@@ -1,0 +1,108 @@
+@using Enterprise.Data.Models
+@using Enterprise.Data.Enums
+
+@if (IsOpen)
+{
+    <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-dark text-white">
+                    <h5 class="modal-title">Create Shipment Manifest</h5>
+                    <button type="button" class="btn-close btn-close-white" @onclick="Close"></button>
+                </div>
+
+                <EditForm Model="Model" OnValidSubmit="HandleValidSubmit">
+                    <DataAnnotationsValidator />
+                    <div class="modal-body">
+                        <ValidationSummary class="alert alert-danger" />
+
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Carrier Name</label>
+                                <InputText @bind-Value="Model.Carrier" class="form-control" placeholder="e.g. Maersk, Hapag-Lloyd" />
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Manifest Number</label>
+                                <InputText @bind-Value="Model.ManifestNumber" class="form-control" placeholder="Auto-generated if blank" />
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Origin Hub</label>
+                                <InputText @bind-Value="Model.OriginHub" class="form-control" placeholder="e.g. Tema Port, Ghana" />
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Destination Hub</label>
+                                <InputText @bind-Value="Model.DestinationHub" class="form-control" placeholder="e.g. Port of Rotterdam" />
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Departure Date</label>
+                                <InputDate @bind-Value="Model.DepartureTime" class="form-control" />
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Estimated Arrival Date</label>
+                                <InputDate @bind-Value="Model.EstimatedArrival" class="form-control" />
+                            </div>
+
+                            <div class="col-12">
+                                <label class="form-label fw-bold">Assign Containers to Manifest</label>
+                                @if (AvailableContainers == null || !AvailableContainers.Any())
+                                {
+                                    <p class="text-muted small">No available containers found in registry.</p>
+                                }
+                                else
+                                {
+                                    <div class="border rounded p-3 bg-light" style="max-height: 180px; overflow-y: auto;">
+                                        @foreach (var c in AvailableContainers)
+                                        {
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="@c.Id"
+                                                       checked="@Model.ContainerIds.Contains(c.Id)"
+                                                       @onchange="(e) => ToggleContainerSelection(c.Id, e.Value)" />
+                                                <label class="form-check-label font-monospace" for="@c.Id">
+                                                    <strong>@c.ContainerNumber</strong> — (@c.Type, @c.Status)
+                                                </label>
+                                            </div>
+                                        }
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" @onclick="Close">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Create Manifest</button>
+                    </div>
+                </EditForm>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter] public bool IsOpen { get; set; }
+    [Parameter] public ShipmentManifest Model { get; set; } = new();
+    [Parameter] public List<Container> AvailableContainers { get; set; } = new();
+    [Parameter] public EventCallback<ShipmentManifest> OnSave { get; set; }
+    [Parameter] public EventCallback OnCancel { get; set; }
+
+    private void ToggleContainerSelection(string containerId, object? checkedValue)
+    {
+        bool isChecked = checkedValue is bool b && b;
+        if (isChecked && !Model.ContainerIds.Contains(containerId))
+        {
+            Model.ContainerIds.Add(containerId);
+        }
+        else if (!isChecked && Model.ContainerIds.Contains(containerId))
+        {
+            Model.ContainerIds.Remove(containerId);
+        }
+    }
+
+    private async Task HandleValidSubmit() => await OnSave.InvokeAsync(Model);
+    private async Task Close() => await OnCancel.InvokeAsync();
+}
