@@ -4,6 +4,9 @@ public class sum {
     public static void main(String[] args){
         int[] digits = new int[]{2, 4, 47, 9, 939, 90, 2, 77, 9, 0, 27, 7, 34, 0, 24, 10};
         int target = 34;
+        int view = digits.length;
+
+        System.out.println("array length is " + view);
 
         for (int i = 0; i < digits.length; i++){
             for (int j = i + 1; j < digits.length; j++){
