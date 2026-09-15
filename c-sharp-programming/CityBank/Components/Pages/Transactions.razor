@@ -1,0 +1,298 @@
+@page "/transactions"
+@using CityBank.Data
+@using Microsoft.EntityFrameworkCore
+@inject IDbContextFactory<CityBankDbContext> DbFactory
+@inject ToastService ToastService
+@rendermode InteractiveServer
+
+<PageTitle>CityBank - Money Movement</PageTitle>
+
+<div class="container-fluid px-0">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold mb-1">Money Movement & Transactions</h2>
+            <p class="text-muted mb-0">Execute deposits, withdrawals, and instant internal transfers</p>
+        </div>
+        <button class="btn btn-primary fw-semibold" @onclick="OpenTransferModal">
+            ⇄ New Transaction / Transfer
+        </button>
+    </div>
+
+    @if (isLoading)
+    {
+        <div class="text-center py-5">
+            <div class="spinner-border text-primary" role="status"></div>
+            <p class="mt-2 text-muted">Loading transaction history...</p>
+        </div>
+    }
+    else
+    {
+        <!-- Recent Transactions Audit Log -->
+        <div class="card border-0 shadow-sm rounded-3">
+            <div class="card-header bg-white py-3">
+                <h5 class="fw-bold mb-0">Transaction History</h5>
+            </div>
+            <div class="card-body p-0">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th class="ps-3">Date / Time</th>
+                            <th>Source Account</th>
+                            <th>Type</th>
+                            <th>Description</th>
+                            <th class="text-end pe-3">Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (!transactions.Any())
+                        {
+                            <tr>
+                                <td colspan="5" class="text-center py-4 text-muted">No transactions recorded yet.</td>
+                            </tr>
+                        }
+                        else
+                        {
+                            @foreach (var tx in transactions)
+                            {
+                                <tr>
+                                    <td class="ps-3 text-muted small">@tx.Timestamp.ToString("g")</td>
+                                    <td>
+                                        <span class="fw-semibold">@tx.Account?.AccountHolder</span>
+                                        <br /><small class="text-muted"><code>@tx.Account?.AccountNumber</code></small>
+                                    </td>
+                                    <td>
+                                        <span class="badge @GetBadgeClass(tx.Type)">@tx.Type</span>
+                                    </td>
+                                    <td>@tx.Description</td>
+                                    <td class="text-end pe-3 fw-bold @(tx.Type == TransactionType.Deposit ? "text-success" : "text-danger")">
+                                        @(tx.Type == TransactionType.Deposit ? "+" : "-")@tx.Amount.ToString("C")
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+</div>
+
+<!-- Transaction Modal Dialog -->
+@if (showModal)
+{
+    <div class="modal fade show d-block" style="background: rgba(0,0,0,0.5);" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg">
+                <div class="modal-header bg-light">
+                    <h5 class="modal-title fw-bold">Execute Transaction</h5>
+                    <button type="button" class="btn-close" @onclick="CloseModal"></button>
+                </div>
+                <EditForm Model="model" OnValidSubmit="ExecuteTransaction">
+                    <DataAnnotationsValidator />
+                    <div class="modal-body">
+                        <ValidationSummary class="text-danger mb-3" />
+
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Transaction Type</label>
+                            <InputSelect @bind-Value="model.Type" class="form-select">
+                                <option value="@TransactionType.Deposit">Deposit Funds</option>
+                                <option value="@TransactionType.Withdrawal">Withdraw Funds</option>
+                                <option value="@TransactionType.Transfer">Internal Transfer</option>
+                            </InputSelect>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">
+                                @(model.Type == TransactionType.Transfer ? "From Account (Source)" : "Account")
+                            </label>
+                            <InputSelect @bind-Value="model.SourceAccountId" class="form-select">
+                                <option value="0">-- Select Account --</option>
+                                @foreach (var acc in activeAccounts)
+                                {
+                                    <option value="@acc.Id">@acc.AccountHolder - @acc.AccountNumber (@acc.Balance.ToString("C"))</option>
+                                }
+                            </InputSelect>
+                        </div>
+
+                        @if (model.Type == TransactionType.Transfer)
+                        {
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">To Account (Destination)</label>
+                                <InputSelect @bind-Value="model.DestinationAccountId" class="form-select">
+                                    <option value="0">-- Select Destination Account --</option>
+                                    @foreach (var acc in activeAccounts.Where(a => a.Id != model.SourceAccountId))
+                                    {
+                                        <option value="@acc.Id">@acc.AccountHolder - @acc.AccountNumber (@acc.Balance.ToString("C"))</option>
+                                    }
+                                </InputSelect>
+                            </div>
+                        }
+
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Amount ($)</label>
+                            <InputNumber @bind-Value="model.Amount" class="form-control" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Reference Note / Description</label>
+                            <InputText @bind-Value="model.Description" class="form-control" placeholder="e.g. Monthly rent payout" />
+                        </div>
+                    </div>
+                    <div class="modal-footer bg-light">
+                        <button type="button" class="btn btn-secondary" @onclick="CloseModal">Cancel</button>
+                        <button type="submit" class="btn btn-success fw-semibold">Confirm Transaction</button>
+                    </div>
+                </EditForm>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    private bool isLoading = true;
+    private bool showModal = false;
+    private List<Transaction> transactions = new();
+    private List<Account> activeAccounts = new();
+
+    private TransactionFormModel model = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadData();
+    }
+
+    private async Task LoadData()
+    {
+        isLoading = true;
+        await using var context = await DbFactory.CreateDbContextAsync();
+
+        activeAccounts = await context.Accounts
+            .Where(a => a.IsActive)
+            .OrderBy(a => a.AccountHolder)
+            .ToListAsync();
+
+        transactions = await context.Transactions
+            .Include(t => t.Account)
+            .OrderByDescending(t => t.Timestamp)
+            .ToListAsync();
+
+        isLoading = false;
+    }
+
+    private void OpenTransferModal()
+    {
+        model = new TransactionFormModel();
+        showModal = true;
+    }
+
+    private void CloseModal()
+    {
+        showModal = false;
+    }
+
+    private async Task ExecuteTransaction()
+    {
+        if (model.SourceAccountId == 0)
+        {
+            ToastService.ShowToast("Please select a valid source account.", "bg-danger");
+            return;
+        }
+
+        if (model.Type == TransactionType.Transfer && model.DestinationAccountId == 0)
+        {
+            ToastService.ShowToast("Please select a destination account for transfer.", "bg-danger");
+            return;
+        }
+
+        await using var context = await DbFactory.CreateDbContextAsync();
+        using var dbTransaction = await context.Database.BeginTransactionAsync();
+
+        try
+        {
+            var sourceAcc = await context.Accounts.FindAsync(model.SourceAccountId);
+            if (sourceAcc == null) return;
+
+            if (model.Type == TransactionType.Deposit)
+            {
+                sourceAcc.Balance += model.Amount;
+                context.Transactions.Add(new Transaction
+                {
+                    AccountId = sourceAcc.Id,
+                    Type = TransactionType.Deposit,
+                    Amount = model.Amount,
+                    Description = string.IsNullOrWhiteSpace(model.Description) ? "Account Deposit" : model.Description
+                });
+            }
+            else if (model.Type == TransactionType.Withdrawal)
+            {
+                if (sourceAcc.Balance < model.Amount)
+                {
+                    ToastService.ShowToast("Insufficient funds for withdrawal.", "bg-danger");
+                    return;
+                }
+                sourceAcc.Balance -= model.Amount;
+                context.Transactions.Add(new Transaction
+                {
+                    AccountId = sourceAcc.Id,
+                    Type = TransactionType.Withdrawal,
+                    Amount = model.Amount,
+                    Description = string.IsNullOrWhiteSpace(model.Description) ? "Account Withdrawal" : model.Description
+                });
+            }
+            else if (model.Type == TransactionType.Transfer)
+            {
+                var destAcc = await context.Accounts.FindAsync(model.DestinationAccountId);
+                if (destAcc == null) return;
+
+                if (sourceAcc.Balance < model.Amount)
+                {
+                    ToastService.ShowToast("Insufficient funds for transfer.", "bg-danger");
+                    return;
+                }
+
+                sourceAcc.Balance -= model.Amount;
+                destAcc.Balance += model.Amount;
+
+                context.Transactions.Add(new Transaction
+                {
+                    AccountId = sourceAcc.Id,
+                    DestinationAccountId = destAcc.Id,
+                    Type = TransactionType.Transfer,
+                    Amount = model.Amount,
+                    Description = string.IsNullOrWhiteSpace(model.Description)
+                        ? $"Transfer to {destAcc.AccountHolder} ({destAcc.AccountNumber})"
+                        : model.Description
+                });
+            }
+
+            await context.SaveChangesAsync();
+            await dbTransaction.CommitAsync();
+
+            ToastService.ShowToast("Transaction executed successfully!", "bg-success");
+            showModal = false;
+            await LoadData();
+        }
+        catch (Exception ex)
+        {
+            await dbTransaction.RollbackAsync();
+            ToastService.ShowToast($"Transaction failed: {ex.Message}", "bg-danger");
+        }
+    }
+
+    private string GetBadgeClass(TransactionType type) => type switch
+    {
+        TransactionType.Deposit => "bg-success-subtle text-success",
+        TransactionType.Withdrawal => "bg-warning-subtle text-dark",
+        TransactionType.Transfer => "bg-primary-subtle text-primary",
+        _ => "bg-secondary"
+    };
+
+    public class TransactionFormModel
+    {
+        public TransactionType Type { get; set; } = TransactionType.Deposit;
+        public int SourceAccountId { get; set; }
+        public int DestinationAccountId { get; set; }
+        public decimal Amount { get; set; } = 100.00m;
+        public string Description { get; set; } = string.Empty;
+    }
+}

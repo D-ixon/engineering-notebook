@@ -1,0 +1,55 @@
+@using CityBank.Data
+@inject ToastService ToastService
+@implements IDisposable
+
+@if (isVisible)
+{
+    <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 1100;">
+        <div class="toast show align-items-center text-white @toastClass border-0 shadow-lg" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body fw-semibold">
+                    @message
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" @onclick="HideToast"></button>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    private bool isVisible = false;
+    private string message = string.Empty;
+    private string toastClass = "bg-success";
+    private System.Threading.Timer? timer;
+
+    protected override void OnInitialized()
+    {
+        ToastService.OnShow += ShowToast;
+    }
+
+    private void ShowToast(string msg, string css)
+    {
+        message = msg;
+        toastClass = css;
+        isVisible = true;
+        InvokeAsync(StateHasChanged);
+
+        timer?.Dispose();
+        timer = new System.Threading.Timer(_ =>
+        {
+            isVisible = false;
+            InvokeAsync(StateHasChanged);
+        }, null, 4000, System.Threading.Timeout.Infinite);
+    }
+
+    private void HideToast()
+    {
+        isVisible = false;
+    }
+
+    public void Dispose()
+    {
+        ToastService.OnShow -= ShowToast;
+        timer?.Dispose();
+    }
+}

@@ -1,0 +1,59 @@
+.sidebar-brand {
+    background: #0f172a;
+}
+
+.brand-icon-bg {
+    width: 38px;
+    height: 38px;
+    background: linear-gradient(135deg, #c9e53d, #0a0a09);
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35);
+}
+
+.brand-text {
+    letter-spacing: -0.5px;
+}
+
+.fs-8 {
+    font-size: 0.7rem;
+}
+
+.tracking-wider {
+    letter-spacing: 0.08em;
+}
+
+.text-muted-sidebar {
+    color: #64748b;
+}
+
+.pill-xs {
+    font-size: 0.625rem;
+    padding: 0.15rem 0.4rem;
+}
+
+::deep .nav-link {
+    color: #94a3b8 !important;
+    font-weight: 500;
+    font-size: 0.925rem;
+    transition: all 0.2s ease-in-out;
+}
+
+::deep .nav-link:hover {
+    color: #f8fafc !important;
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+::deep .nav-link.active {
+    color: #ffffff !important;
+    background: linear-gradient(90deg, #bac5dd, #4f5462) !important;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+}
+
+/* Top Brand Header */
+.sidebar-brand {
+    background: #111827; /* Dark charcoal */
+}
+
+/* Main Sidebar Background */
+.nav-scrollable {
+    background: #1f2937; /* Slightly lighter charcoal */
+}

@@ -1,0 +1,210 @@
+@page "/accounts"
+@using CityBank.Data
+@using Microsoft.EntityFrameworkCore
+@inject IDbContextFactory<CityBankDbContext> DbFactory
+@rendermode InteractiveServer
+
+<PageTitle>CityBank - Accounts Management</PageTitle>
+
+<div class="container-fluid px-0">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold mb-1">Accounts Management</h2>
+            <p class="text-muted mb-0">Perform CRUD operations on CityBank account records</p>
+        </div>
+        <button class="btn btn-primary fw-semibold" @onclick="OpenCreateModal">
+            + Open New Account
+        </button>
+    </div>
+
+    @if (isLoading)
+    {
+        <div class="text-center py-5">
+            <div class="spinner-border text-primary" role="status"></div>
+            <p class="mt-2 text-muted">Loading account directory...</p>
+        </div>
+    }
+    else
+    {
+        <!-- READ: Account List Table -->
+        <div class="card border-0 shadow-sm rounded-3">
+            <div class="card-body p-0">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th class="ps-3">Account #</th>
+                            <th>Holder Name</th>
+                            <th>Type</th>
+                            <th>Balance</th>
+                            <th>Status</th>
+                            <th class="text-end pe-3">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var acc in accounts)
+                        {
+                            <tr>
+                                <td class="ps-3"><code>@acc.AccountNumber</code></td>
+                                <td class="fw-medium">@acc.AccountHolder</td>
+                                <td><span class="badge bg-secondary">@acc.AccountType</span></td>
+                                <td class="fw-bold">@acc.Balance.ToString("C")</td>
+                                <td>
+                                    <span class="badge @(acc.IsActive ? "bg-success-subtle text-success" : "bg-danger-subtle text-danger")">
+                                        @(acc.IsActive ? "Active" : "Disabled")
+                                    </span>
+                                </td>
+                                <td class="text-end pe-3">
+                                    <button class="btn btn-sm btn-outline-primary me-2" @onclick="() => OpenEditModal(acc)">
+                                        Edit
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-danger" @onclick="() => DeleteAccount(acc.Id)">
+                                        Delete
+                                    </button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+</div>
+
+<!-- CREATE & UPDATE Modal Dialog -->
+@if (showModal)
+{
+    <div class="modal fade show d-block" style="background: rgba(0,0,0,0.5);" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg">
+                <div class="modal-header bg-light">
+                    <h5 class="modal-title fw-bold">@(isEditMode ? "Edit Account" : "Open New Account")</h5>
+                    <button type="button" class="btn-close" @onclick="CloseModal"></button>
+                </div>
+                <EditForm Model="currentAccount" OnValidSubmit="SaveAccount">
+                    <DataAnnotationsValidator /> 
+                    <div class="modal-body">
+                        <ValidationSummary class="text-danger mb-3" />
+
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Account Number</label>
+                            <InputText @bind-Value="currentAccount.AccountNumber" class="form-control" placeholder="e.g. 10099887766" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Account Holder Name</label>
+                            <InputText @bind-Value="currentAccount.AccountHolder" class="form-control" placeholder="e.g. John Doe" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Account Type</label>
+                            <InputSelect @bind-Value="currentAccount.AccountType" class="form-select">
+                                <option value="Checking">Checking</option>
+                                <option value="Savings">Savings</option>
+                                <option value="Business">Business</option>
+                            </InputSelect>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Balance ($)</label>
+                            <InputNumber @bind-Value="currentAccount.Balance" class="form-control" />
+                        </div>
+
+                        <div class="form-check form-switch mb-3">
+                            <InputCheckbox @bind-Value="currentAccount.IsActive" class="form-check-input" id="activeSwitch" />
+                            <label class="form-check-label fw-semibold" for="activeSwitch">Active Account</label>
+                        </div>
+                    </div>
+                    <div class="modal-footer bg-light">
+                        <button type="button" class="btn btn-secondary" @onclick="CloseModal">Cancel</button>
+                        <button type="submit" class="btn btn-success fw-semibold">Save Account</button>
+                    </div>
+                </EditForm>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    private bool isLoading = true;
+    private bool showModal = false;
+    private bool isEditMode = false;
+
+    private List<Account> accounts = new();
+    private Account currentAccount = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadAccounts();
+    }
+
+    private async Task LoadAccounts()
+    {
+        isLoading = true;
+        await using var context = await DbFactory.CreateDbContextAsync();
+        accounts = await context.Accounts
+            .AsNoTracking()
+            .OrderByDescending(a => a.CreatedAt)
+            .ToListAsync();
+        isLoading = false;
+    }
+
+    private void OpenCreateModal()
+    {
+        currentAccount = new Account { AccountType = "Checking", CreatedAt = DateTime.UtcNow };
+        isEditMode = false;
+        showModal = true;
+    }
+
+    private void OpenEditModal(Account account)
+    {
+        currentAccount = new Account
+        {
+            Id = account.Id,
+            AccountNumber = account.AccountNumber,
+            AccountHolder = account.AccountHolder,
+            AccountType = account.AccountType,
+            Balance = account.Balance,
+            IsActive = account.IsActive,
+            CreatedAt = account.CreatedAt
+        };
+        isEditMode = true;
+        showModal = true;
+    }
+
+    private void CloseModal()
+    {
+        showModal = false;
+    }
+
+    // Creating and updating accounts
+    private async Task SaveAccount()
+    {
+        await using var context = await DbFactory.CreateDbContextAsync();
+
+        if (isEditMode)
+        {
+            context.Accounts.Update(currentAccount);
+        }
+        else
+        {
+            context.Accounts.Add(currentAccount);
+        }
+
+        await context.SaveChangesAsync();
+        showModal = false;
+        await LoadAccounts();
+    }
+
+    // Deleting an account
+    private async Task DeleteAccount(int id)
+    {
+        await using var context = await DbFactory.CreateDbContextAsync();
+        var account = await context.Accounts.FindAsync(id);
+        if (account != null)
+        {
+            context.Accounts.Remove(account);
+            await context.SaveChangesAsync();
+            await LoadAccounts();
+        }
+    }
+}
