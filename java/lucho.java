@@ -3,6 +3,16 @@ class Greeter {
         return "Hello " + a + " and " + b;
     }
 }
+class Two {
+    public static void you(String c, String d){
+        String formattedC = c.toUpperCase();
+        String formattedD = d.toUpperCase();
+
+        String finalMessage = "Hello " + formattedC + " and " + formattedD;
+
+        System.out.println(finalMessage);
+    }
+}
 class Calculator {
     public static int add(int a, int b) {
         return a + b;
@@ -15,6 +25,8 @@ public class lucho {
 
         String str1 = "Manim";
         String str2 = "Ludi";
+
+        Two.you(str1, str2);
 
         String message = Greeter.hey(str1, str2);
 
