@@ -1,23 +1,22 @@
-class Microwave {
-    private int timerSeconds = 0;
 
-    public void setTimer(int seconds){
-        this.timerSeconds = seconds;
+class Car {
+    private String name;
+
+    public Car(String name){
+        this.name = name;
     }
 
-    public String cook(){
-        return "Food is hot after cooking for " + this.timerSeconds + " seconds!";
+    public void announceSelf() {
+        System.out.println("Hello, my name is " + name);
     }
 }
 
 public class Main{
     public static void main(String[] args) {
-        Microwave myMicrowave = new Microwave();
+        Car s1 = new Car("Manim");
+        Car s2 = new Car("Ludi");
 
-        myMicrowave.setTimer(60);
-
-        String result = myMicrowave.cook();
-
-        System.out.println(result);
+        s1.announceSelf();
+        s2.announceSelf();
     }
 }
