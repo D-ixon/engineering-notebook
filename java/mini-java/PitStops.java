@@ -6,7 +6,7 @@ public class PitStops {
         int fastindex = 0;
         int slowindex = 0;
         double sum = 0.0;
-        double average = 0.0;
+        double average;
 
         for (int i = 1; i < pitStops.length; i++) {
             if (pitStops[i] < pitStops[fastindex]) {
