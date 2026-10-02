@@ -8,6 +8,8 @@ public class PitStops {
         double sum = 0.0;
         double average;
 
+        System.out.println();
+
         for (int i = 1; i < pitStops.length; i++) {
             if (pitStops[i] < pitStops[fastindex]) {
                 fastindex = i;
@@ -27,5 +29,13 @@ public class PitStops {
         }
         average = sum/pitStops.length;
         System.out.println("The average pit stop time is: " + average + " seconds");
+
+        if (average < 2.5){
+            System.out.println("Excellent pit crew!");
+        }else{
+            System.out.println("The pit crew needs improvement.");
+        }
+        
+        System.out.println();
     }
 }
