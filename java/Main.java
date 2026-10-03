@@ -1,13 +1,19 @@
-
 class Car {
-    private final String name;
+    private String name;
 
     public Car(String name){
         this.name = name;
     }
 
+    public Car() {
+    }
+
     public void announceSelf() {
         System.out.println("Hello, my name is " + name);
+    }
+
+    public String getName() {
+        return name;
     }
 }
 
