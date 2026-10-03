@@ -1,12 +1,14 @@
 public class RaceSimulation {
     
     public static void main(String[] args) {
-        int sumRaceTime = 0;
+        double sumRaceTime = 0.0;
         int fastIndex = 0;
         int slowIndex = 0;
-        int averageLap;
+        double averageLap;
+        int fastLap = 87;
+        int fastLapLimit = 0;
 
-        System.out.println("=".repeat(30)+ "\n");
+        System.out.println( "\n" + "=".repeat(9)+ " RACE REPORT " + "=".repeat(9) + "\n");
 
         
         // All race lap times.
@@ -27,7 +29,7 @@ public class RaceSimulation {
                 fastIndex = j;
             }
         }
-        System.out.println(" Fastest lap: " + lapTimes[fastIndex]);
+        System.out.println(" Fastest lap: " + lapTimes[fastIndex] + " seconds");
 
         // The slowest lap
         for (int a = 1; a < lapTimes.length; a++){
@@ -35,10 +37,18 @@ public class RaceSimulation {
                 slowIndex = a;
             }
         }
-        System.out.println(" Slowest lap: " + lapTimes[slowIndex]);
+        System.out.println(" Slowest lap: " + lapTimes[slowIndex] + " seconds");
 
         // The Average lap
         averageLap = sumRaceTime / lapTimes.length;
-        System.out.println(" Average lap: " + averageLap);
+        System.out.println(" Average lap: " + averageLap + " seconds");
+
+        // The counts of laps faster than 87 seconds
+        for (int c = 0; c < lapTimes.length; c++){
+            if (lapTimes[c] < fastLap){
+                fastLapLimit += 1;
+            }
+        }
+        System.out.println(" Fast Laps: " + fastLapLimit + "\n");
     }
 }
