@@ -1,7 +1,12 @@
 public class RaceEngineer {
 
-    public static double getFastestLap(double a){
-        return 0;
+    public static double getFastestLap(int a, double[] arr){
+        for (int i = 1; i < arr.length; i++){
+            if (arr[i] < arr[a]){
+                a = i;
+            }
+        }
+        return a;
     }
 
     public static double getSlowestLap(double a){
@@ -19,7 +24,7 @@ public class RaceEngineer {
     public static int countSlowLaps(int a){
         return 0;
     }
-    
+
     public static void main(String[] args) {
         double[] lapTimes = {
             91.2, 89.5, 88.7, 87.9,
