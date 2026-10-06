@@ -16,7 +16,7 @@ public class MiniF1RaceSystem {
         };
     }
 
-    public static int raceWinner(double[] arr){
+    public static int findFastestLap(double[] arr){
         int firstIndex = 0;
         for (int i = 0; i < arr.length; i++){
             if (arr[i] < arr[firstIndex]){
@@ -75,11 +75,11 @@ public class MiniF1RaceSystem {
     System.out.println("=".repeat(40) + "\n");
 
     // Race Winner
-    String driver = drivers[raceWinner(fastestLaps)];
+    String driver = drivers[findWinner(positions)];
     System.out.println(" Race Winner: " + driver);
 
     // Fastest Lap
-    String fastlap = drivers[findWinner(positions)];
+    String fastlap = drivers[findFastestLap(fastestLaps)];
     System.out.println(" Fastest Lap: " + fastlap);
 
     // Total Championship Points
