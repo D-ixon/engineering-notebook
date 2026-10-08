@@ -100,6 +100,12 @@ lib/
 # macOS Debug directories
 *.dSYM/
  
+ # Ignore extensionless executable binaries on macOS/Linux
+*
+!*.*
+!Makefile
+!README.md
+
 # Executables (Windows & Mac/Linux outputs)
 *.exe
 *.app
