@@ -14,6 +14,7 @@ Thumbs.db
 
 # Python & Virtual Environments
 venv/
+hex/
 .venv/
 machine-learning/hex/
 __pycache__/
