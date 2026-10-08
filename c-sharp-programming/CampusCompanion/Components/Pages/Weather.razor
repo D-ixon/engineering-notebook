@@ -1,64 +1,194 @@
-﻿@page "/weather"
-@attribute [StreamRendering]
+﻿@page "/student"
+@rendermode InteractiveServer
+@using System.ComponentModel.DataAnnotations
 
-<PageTitle>Weather</PageTitle>
+<h1>Student Administration Portal</h1>
+<p>@students.Count total student(s) on record</p>
 
-<h1>Weather</h1>
-
-<p>This component demonstrates showing data.</p>
-
-@if (forecasts == null)
+<div>
+    <input @bind="searchIdInput" placeholder="Enter student Id" />
+    <button @onclick="HandleSearch">Find</button>
+</div>
+@if (!string.IsNullOrEmpty(searchMessage))
 {
-    <p><em>Loading...</em></p>
+    <p style="color:@(searchResult == null ? "red" : "green")">@searchMessage</p>
 }
-else
-{
-    <table class="table">
-        <thead>
+
+<hr />
+
+<button @onclick="StartAdd">+ Add Student</button>
+
+<table border="1" cellpadding="6">
+    <thead>
+        <tr>
+            <th>Id</th><th>Name</th><th>Age</th><th>Email</th><th>Course</th><th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var s in students)
+        {
             <tr>
-                <th>Date</th>
-                <th aria-label="Temperature in Celsius">Temp. (C)</th>
-                <th aria-label="Temperature in Fahrenheit">Temp. (F)</th>
-                <th>Summary</th>
+                <td>@s.Id</td>
+                <td>@s.Name</td>
+                <td>@s.Age</td>
+                <td>@s.Email</td>
+                <td>@s.Course</td>
+                <td>
+                    <button @onclick="() => StartEdit(s)">Edit</button>
+                    <button @onclick="() => DeleteStudent(s.Id)">Delete</button>
+                </td>
             </tr>
-        </thead>
-        <tbody>
-            @foreach (var forecast in forecasts)
-            {
-                <tr>
-                    <td>@forecast.Date.ToShortDateString()</td>
-                    <td>@forecast.TemperatureC</td>
-                    <td>@forecast.TemperatureF</td>
-                    <td>@forecast.Summary</td>
-                </tr>
-            }
-        </tbody>
-    </table>
+        }
+    </tbody>
+</table>
+
+<hr />
+
+@if (currentStudent is not null)
+{
+    <h3>@(isEditMode ? "Edit Student" : "Add Student")</h3>
+
+    <EditForm Model="@currentStudent" OnValidSubmit="@HandleSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div>
+            <label>Name:</label>
+            <InputText @bind-Value="currentStudent.Name" />
+            <ValidationMessage For="@(() => currentStudent.Name)" />
+        </div>
+
+        <div>
+            <label>Age:</label>
+            <InputNumber @bind-Value="currentStudent.Age" />
+            <ValidationMessage For="@(() => currentStudent.Age)" />
+        </div>
+
+        <div>
+            <label>Email:</label>
+            <InputText @bind-Value="currentStudent.Email" />
+            <ValidationMessage For="@(() => currentStudent.Email)" />
+        </div>
+
+        <div>
+            <label>Course:</label>
+            <InputText @bind-Value="currentStudent.Course" />
+            <ValidationMessage For="@(() => currentStudent.Course)" />
+        </div>
+
+        <button type="submit">Save</button>
+        <button type="button" @onclick="CancelEdit">Cancel</button>
+    </EditForm>
 }
 
 @code {
-    private WeatherForecast[]? forecasts;
-
-    protected override async Task OnInitializedAsync()
+    public class Student
     {
-        // Simulate asynchronous loading to demonstrate streaming rendering
-        await Task.Delay(500);
+        public int Id { get; set; }
 
-        var startDate = DateOnly.FromDateTime(DateTime.Now);
-        var summaries = new[] { "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching" };
-        forecasts = Enumerable.Range(1, 5).Select(index => new WeatherForecast
-        {
-            Date = startDate.AddDays(index),
-            TemperatureC = Random.Shared.Next(-20, 55),
-            Summary = summaries[Random.Shared.Next(summaries.Length)]
-        }).ToArray();
+        [Required(ErrorMessage = "Name is required")]
+        [StringLength(50)]
+        public string Name { get; set; } = "";
+
+        [Range(16, 100, ErrorMessage = "Enter a valid age between 16 and 100")]
+        public int Age { get; set; }
+
+        [Required(ErrorMessage = "Email is required")]
+        [EmailAddress(ErrorMessage = "Enter a valid email address")]
+        public string Email { get; set; } = "";
+
+        [Required(ErrorMessage = "Course is required")]
+        public string Course { get; set; } = "";
     }
 
-    private class WeatherForecast
+    private List<Student> students = new();
+    private int nextId = 1;
+
+    private Student? currentStudent;
+    private bool isEditMode = false;
+
+    private string searchIdInput = "";
+    private string searchMessage = "";
+    private Student? searchResult;
+
+    protected override void OnInitialized()
     {
-        public DateOnly Date { get; set; }
-        public int TemperatureC { get; set; }
-        public string? Summary { get; set; }
-        public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+        students.Add(new Student { Id = nextId++, Name = "Ama Boateng", Age = 20, Email = "ama@example.com", Course = "Computer Science" });
+        students.Add(new Student { Id = nextId++, Name = "Kwame Mensah", Age = 24, Email = "kwame@example.com", Course = "Electrical Engineering" });
+    }
+
+    private void StartAdd()
+    {
+        currentStudent = new Student();
+        isEditMode = false;
+    }
+
+    private void StartEdit(Student s)
+    {
+        currentStudent = new Student
+        {
+            Id = s.Id,
+            Name = s.Name,
+            Age = s.Age,
+            Email = s.Email,
+            Course = s.Course
+        };
+        isEditMode = true;
+    }
+
+    private void HandleSubmit()
+    {
+        if (currentStudent is null) return;
+
+        if (isEditMode)
+        {
+            var existing = students.FirstOrDefault(s => s.Id == currentStudent.Id);
+            if (existing is not null)
+            {
+                existing.Name = currentStudent.Name;
+                existing.Age = currentStudent.Age;
+                existing.Email = currentStudent.Email;
+                existing.Course = currentStudent.Course;
+            }
+        }
+        else
+        {
+            currentStudent.Id = nextId++;
+            students.Add(currentStudent);
+        }
+
+        currentStudent = null;
+    }
+
+    private void CancelEdit()
+    {
+        currentStudent = null;
+    }
+
+    private void DeleteStudent(int id)
+    {
+        students.RemoveAll(s => s.Id == id);
+    }
+
+    private void HandleSearch()
+    {
+        if (string.IsNullOrWhiteSpace(searchIdInput))
+        {
+            searchMessage = "Please enter an Id to search.";
+            searchResult = null;
+            return;
+        }
+
+        if (!int.TryParse(searchIdInput, out int id))
+        {
+            searchMessage = "Id must be a whole number.";
+            searchResult = null;
+            return;
+        }
+
+        searchResult = students.FirstOrDefault(s => s.Id == id);
+        searchMessage = searchResult is not null
+            ? $"Found: {searchResult.Name} ({searchResult.Course})"
+            : $"No student found with Id {id}.";
     }
 }

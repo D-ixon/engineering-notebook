@@ -1,0 +1,73 @@
+@page "/create-account"
+
+@using CampusCompanion.Data
+@using CampusCompanion.Models
+@using System.ComponentModel.DataAnnotations
+@inject BankingDbContext Db
+@inject NavigationManager Navigation
+
+<PageTitle>MyBank - Create Account</PageTitle>
+
+<div class="container mt-5">
+
+<h1>Create Bank Account</h1>
+
+<EditForm Model="account" OnValidSubmit="CreateAccount">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="mb-3">
+        <label class="form-label">Account Holder Name</label>
+        <InputText class="form-control"
+                   @bind-Value="account.AccountHolderName" />
+        <ValidationMessage For="@(() => account.AccountHolderName)" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Account Number</label>
+        <InputText class="form-control"
+                   @bind-Value="account.AccountNumber" />
+        <ValidationMessage For="@(() => account.AccountNumber)" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Account Type</label>
+        <InputSelect class="form-select"
+                     @bind-Value="account.AccountType">
+            <option value="">Select account type</option>
+            <option value="Savings">Savings</option>
+            <option value="Current">Current</option>
+        </InputSelect>
+        <ValidationMessage For="@(() => account.AccountType)" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Initial Balance</label>
+        <InputNumber class="form-control"
+                     @bind-Value="account.Balance" />
+        <ValidationMessage For="@(() => account.Balance)" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">
+        Create Account
+    </button>
+
+    <a href="/accounts" class="btn btn-secondary ms-2">
+        Cancel
+    </a>
+
+</EditForm>
+
+</div>
+
+@code {
+private BankAccount account = new();
+
+private void CreateAccount()
+{
+    Db.BankAccounts.Add(account);
+    Db.SaveChanges();
+    Navigation.NavigateTo("/accounts");
+}
+
+}

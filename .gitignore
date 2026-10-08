@@ -15,11 +15,13 @@ Thumbs.db
 # Python & Virtual Environments
 venv/
 .venv/
+machine-learning/hex/
 __pycache__/
 *.pyc
 
 # C# & Blazor (.NET Ecosystem)
 [Bb]in/
+
 [Oo]bj/
 .vs/
 *.user

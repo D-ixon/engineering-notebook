@@ -1,6 +1,10 @@
+using CampusCompanion.Data;
+using Microsoft.EntityFrameworkCore;
 using CampusCompanion.Components;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddDbContext<BankingDbContext>(options =>
+options.UseSqlite("Data Source=banking.db"));
 
 // Add services to the container.
 builder.Services.AddRazorComponents()

@@ -11,6 +11,7 @@ class Animal {
     }
 }
 
+// Child class
 class Dog extends Animal {
     String breed;
         
@@ -28,7 +29,7 @@ class Dog extends Animal {
         System.out.println(name + " the " + breed + " munches on kibble.");
     }
 }
-
+// Main class
 public class Door {
     public static void main(String[] args) {
         Dog myDog = new Dog("Buddy", "Golden Retriever");

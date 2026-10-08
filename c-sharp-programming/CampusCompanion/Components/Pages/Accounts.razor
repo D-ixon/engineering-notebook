@@ -1,0 +1,58 @@
+@page "/accounts"
+
+@using CampusCompanion.Data
+@using CampusCompanion.Models
+@inject BankingDbContext Db
+
+<PageTitle>MyBank - Accounts</PageTitle>
+
+<div class="container mt-5">
+
+```
+<h1>Bank Accounts</h1>
+
+<p class="lead">View all registered bank accounts.</p>
+
+@if (accounts.Count == 0)
+{
+    <p>No bank accounts have been registered yet.</p>
+}
+else
+{
+    <table class="table table-striped mt-4">
+        <thead>
+            <tr>
+                <th>Account Number</th>
+                <th>Account Holder</th>
+                <th>Account Type</th>
+                <th>Balance</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var account in accounts)
+            {
+                <tr>
+                    <td>@account.AccountNumber</td>
+                    <td>@account.AccountHolderName</td>
+                    <td>@account.AccountType</td>
+                    <td>GH₵ @account.Balance.ToString("N2")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+```
+
+</div>
+
+@code {
+private List<BankAccount> accounts = new();
+
+
+protected override void OnInitialized()
+{
+    accounts = Db.BankAccounts.ToList();
+}
+
+}
