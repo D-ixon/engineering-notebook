@@ -1,115 +1,27 @@
-# ==========================================
-# 1. Operating System Clutter
-# ==========================================
+# OS Clutter
 .DS_Store
 Thumbs.db
-*.log
 
-# ==========================================
-# 2. Python / Machine Learning
-# ==========================================
-**/__pycache__/
-*.pyc
-dix/
+# C / C++ Binaries & Debug Output
+*.o
+*.obj
+*.exe
+*.out
+*.dSYM/
+
+# PlatformIO & Embedded Build Outputs
+.pio/
+
+# Python & Virtual Environments
 venv/
 .venv/
-.ipynb_checkpoints/
-include/
-lib/
-share/
-*.cfg
+__pycache__/
+*.pyc
 
-# ==========================================
-# 3. C# & Blazor (.NET Ecosystem)
-# ==========================================
+# C# & Blazor (.NET Ecosystem)
 [Bb]in/
 [Oo]bj/
 .vs/
-.vscode/
 *.user
 *.suo
-# Blazor/Web specific publishing/test junk
-_ReSharper*/
-[Ww]wwroot/dist/
-App_Data/
-## User-specific files
-*.rsuser
-*.suo
-*.user
-*.userosscache
-*.sln.docstates
-
-## Build results
-[Dd]ebug/
-[Dd]ebugPublic/
-[Rr]elease/
-x64/
-x86/
-[Aa][Rr][Mm]/
-[Aa][Rr][Mm]64/
-bsearch/
-giga/
-obj/
-bin/
-
-## Visual Studio Cache and settings
-.vs/
-html/
-LightSwitchGeneratedOutput/
-
-## Visual Studio Code
-.vscode/
-!.vscode/extensions.json
-.history/
-*.code-workspace
-
-## JetBrains Rider / IntelliJ
-.idea/
-*.sln.iml
-
-## Publish output
-*.[Pp]ublish.xml
-*.azurePubxml
-PublishScripts/
-bin/Debug/net*/publish/
-bin/Release/net*/publish/
-
-## Windows / macOS temporary files
-Thumbs.db
-ehthumbs.db
-Desktop.ini
-.DS_Store
-
-## Local configuration & User Secrets
 appsettings.Development.json
-appsettings.Local.json
-secrets.json
-
-hex/
-
-# ==========================================
-# 4. C & C++ (Compilers & Build Systems)
-# ==========================================
-# Compiled Object files
-*.o
-*.obj
-build/
-lib/
-*.out
-
-# macOS Debug directories
-*.dSYM/
- 
- # Ignore extensionless executable binaries on macOS/Linux
-*
-!*.*
-!Makefile
-!README.md
-
-# Executables (Windows & Mac/Linux outputs)
-*.exe
-*.app
-
-# Build directories (if you use CMake or Makefiles)
-[Bb]uild/
-[Cc]make-build-*/
