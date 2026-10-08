@@ -97,6 +97,9 @@ build/
 lib/
 *.out
 
+# macOS Debug directories
+*.dSYM/
+ 
 # Executables (Windows & Mac/Linux outputs)
 *.exe
 *.app
