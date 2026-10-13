@@ -1,17 +1,17 @@
-class Player {
+class FootballPlayer {
 
-    private String name;
-    private String position;
-    private String club;
-    private int age;
-    private int overall; 
-    private int pace;
-    private int shooting;
-    private int passing;
-    private int stamina;
+    String name;
+    String position;
+    String club;
+    int age;
+    int overall; 
+    int pace;
+    int shooting;
+    int passing;
+    int stamina;
 
     // Constructor
-    public Player(String name, String position, String club, int age, int overall, int pace, int shooting, int passing, int stamina) {
+    public FootballPlayer(String name, String position, String club, int age, int overall, int pace, int shooting, int passing, int stamina) {
         this.name = name;
         this.age = age;
         this.position = position;
@@ -40,35 +40,53 @@ class Player {
     public double calculateAverageSkill() {
         return (this.pace + this.shooting + this.passing + this.stamina) / 4.0;
     }
+
+    // Determine whether a player is promising. Determinants: age under 23, and overall rating at least 80
+    public void playerStatus(){
+        if (this.age < 23 && this.overall >= 80){
+            System.out.println("Status: Promising Youngster\n");
+        }
+    }
 }
 
 public class CreateFootballer {
     public static void main(String[] args) {
         System.out.println("\n" + "=".repeat(8) + " PLAYER PROFILE " + "=".repeat(8) + "\n");
 
-        Player kofi = new Player("Kofi", "LW", "Manchester United", 21, 82, 85, 78, 85, 75);
-        Player dickson = new Player("Dickson", "AM", "Manchester United", 21, 83, 85, 78, 92, 75);
-        Player kofaie = new Player("Kofaie", "CB", "Manchester United", 21, 91, 85, 68, 85, 79);
+        FootballPlayer kofi = new FootballPlayer("Kofi", "LW", "Manchester United", 21, 82, 85, 78, 85, 75);
+        FootballPlayer dickson = new FootballPlayer("Dickson", "AM", "Manchester United", 21, 83, 85, 78, 92, 75);
+        FootballPlayer kofaie = new FootballPlayer("Kofaie", "CB", "Manchester United", 21, 91, 85, 68, 85, 79);
 
+        // Display player profile and average skill ratings
         kofi.displayProfile();
         double skill1 = kofi.calculateAverageSkill();
         System.out.println("Average Skill: " + skill1 + "\n");
+        kofi.playerStatus();
 
         dickson.displayProfile();
         double skill2 = dickson.calculateAverageSkill();
         System.out.println("Average Skill: " + skill2 + "\n");
+        dickson.playerStatus();
 
         kofaie.displayProfile();
         double skill3 = kofaie.calculateAverageSkill();
         System.out.println("Average Skill: " + skill3 + "\n");
+        kofaie.playerStatus();
 
-        
+        System.out.println("=".repeat(8) + "PLAYER COMPARISON" + "=".repeat(8));
 
+        // Find the best player
         double largest = skill1;
         if (skill2 > skill1){
             largest = skill2;
         }if (skill3 > largest){
             largest = skill3;
+        }if (kofi.calculateAverageSkill() == largest){
+            System.out.println("Best Player: " + kofi.name);
+        }else if (dickson.calculateAverageSkill() == largest){
+            System.out.println("Best Player: " + dickson.name);
+        }else if (kofaie.calculateAverageSkill() == largest){
+            System.out.println("Best Player: " + kofaie.name);
         }
         System.out.println("Highest Average Skill: " + largest);
     }
