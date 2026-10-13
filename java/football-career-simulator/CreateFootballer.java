@@ -1,14 +1,14 @@
 class FootballPlayer {
 
-    String name;
-    String position;
-    String club;
-    int age;
-    int overall; 
-    int pace;
-    int shooting;
-    int passing;
-    int stamina;
+    private String name;
+    private String position;
+    private String club;
+    private int age;
+    private int overall; 
+    private int pace;
+    private int shooting;
+    private int passing;
+    private int stamina;
 
     // Constructor
     public FootballPlayer(String name, String position, String club, int age, int overall, int pace, int shooting, int passing, int stamina) {
@@ -21,6 +21,10 @@ class FootballPlayer {
         this.shooting = shooting;
         this.passing = passing;
         this.stamina = stamina;  
+    }
+
+    public String getName(){
+        return this.name;
     }
 
     // Method to display the current player's profile
@@ -45,6 +49,8 @@ class FootballPlayer {
     public void playerStatus(){
         if (this.age < 23 && this.overall >= 80){
             System.out.println("Status: Promising Youngster\n");
+        }else{
+            System.out.println("Status: Not a promising youngster");
         }
     }
 }
@@ -59,34 +65,35 @@ public class CreateFootballer {
 
         // Display player profile and average skill ratings
         kofi.displayProfile();
-        double skill1 = kofi.calculateAverageSkill();
-        System.out.println("Average Skill: " + skill1 + "\n");
+        double kofiSkill = kofi.calculateAverageSkill();
+        System.out.println("Average Skill: " + kofiSkill + "\n");
         kofi.playerStatus();
 
         dickson.displayProfile();
-        double skill2 = dickson.calculateAverageSkill();
-        System.out.println("Average Skill: " + skill2 + "\n");
+        double dicksonSkill = dickson.calculateAverageSkill();
+        System.out.println("Average Skill: " + dicksonSkill + "\n");
         dickson.playerStatus();
 
         kofaie.displayProfile();
-        double skill3 = kofaie.calculateAverageSkill();
-        System.out.println("Average Skill: " + skill3 + "\n");
+        double kofaieSkill = kofaie.calculateAverageSkill();
+        System.out.println("Average Skill: " + kofaieSkill + "\n");
         kofaie.playerStatus();
 
         System.out.println("=".repeat(8) + "PLAYER COMPARISON" + "=".repeat(8));
 
         // Find the best player
-        double largest = skill1;
-        if (skill2 > skill1){
-            largest = skill2;
-        }if (skill3 > largest){
-            largest = skill3;
-        }if (kofi.calculateAverageSkill() == largest){
-            System.out.println("Best Player: " + kofi.name);
-        }else if (dickson.calculateAverageSkill() == largest){
-            System.out.println("Best Player: " + dickson.name);
-        }else if (kofaie.calculateAverageSkill() == largest){
-            System.out.println("Best Player: " + kofaie.name);
+        double largest = kofiSkill;
+        if (dicksonSkill > kofiSkill){
+            largest = dicksonSkill;
+        }if (kofaieSkill > largest){
+            largest = kofaieSkill;
+
+        }if (kofiSkill == largest){
+            System.out.println("Best Player: " + kofi.getName());
+        }else if (dicksonSkill == largest){
+            System.out.println("Best Player: " + dickson.getName());
+        }else if (kofaieSkill == largest){
+            System.out.println("Best Player: " + kofaie.getName());
         }
         System.out.println("Highest Average Skill: " + largest);
     }
