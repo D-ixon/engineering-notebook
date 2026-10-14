@@ -156,9 +156,51 @@ public class PlayerTrainer {
         System.out.print("Enter your stamina: ");
         kofaie.setStamina(scanner.nextInt());
 
+        System.out.println("=".repeat(50));
 
-        System.out.println("=".repeat(30));
+        System.out.println(" Your Complete Profile");
+        kofaie.displayProfile();
 
-        System.out.println(kofi.playerOverall());
+        System.out.println( " Kofaie's Averagae skill before training" + kofaie.calculateAverageSkill());
+
+        // training drills 
+        System.out.print(" Ready for today's drill? (Y/N): ");
+        scanner.nextLine();               
+        String yes = scanner.nextLine();    
+
+        while (yes.equalsIgnoreCase("Y")) {
+    
+            System.out.println("\nChoose a training drill:");
+            System.out.println(" Enter SH for a shooting drill");
+            System.out.println(" Enter PA for a passing drill");
+            System.out.println(" Enter PC for a pacing drill");
+            System.out.println(" Enter ST for a stamina drill");
+            System.out.print(" Your choice: ");
+    
+            // Read the drill choice here
+            String drill = scanner.nextLine();
+
+            // Process the drill choice using your switch expression
+            switch (drill.toUpperCase()) {
+                case "SH" -> System.out.println(kofaie.trainShooting());
+                case "PA" -> System.out.println(kofaie.trainPassing());
+                case "PC" -> System.out.println(kofaie.trainPace());
+                case "ST" -> System.out.println(kofaie.trainStamina());
+                default  -> System.out.println(" Invalid drill code. No training completed.");
+    
+            }
+
+            // Ask them again if they want to do *another* drill
+            System.out.print("\n Do you want to choose another drill? (Y/N): ");
+            yes = scanner.nextLine();   
+        }
+
+        System.out.println( " Kofaie's Averagae skill After training" + kofaie.calculateAverageSkill());
+
+        // This runs as soon as they type "N" or anything else to quit
+        System.out.println(" Exiting program... Goodbye!");
+
+        System.out.println(" Kofi's Overall: " + kofi.playerOverall());
+        System.out.println(" Kofaie's Overall: " + kofaie.playerOverall());
     }
 }
