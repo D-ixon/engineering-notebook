@@ -1,4 +1,4 @@
-class FootballPlayer{
+class Player{
     private String name;
     private String position;
     private String club;
@@ -9,7 +9,7 @@ class FootballPlayer{
     private int passing;
     private int stamina;
 
-    public FootballPlayer(String name, String position, String club, int age, int overall, int shooting, int pace, int passing, int stamina){
+    public Player(String name, String position, String club, int age, int overall, int shooting, int pace, int passing, int stamina){
         this.name = name;
         this.position = position;
         this.club = club;
@@ -76,15 +76,17 @@ public class PlayerTrainer {
     public static void main(String[] args) {
         System.out.println("=".repeat(8) + "Player Trainer" + "=".repeat(8));
 
-        FootballPlayer kofi = new FootballPlayer("Kofi", "LW", "Real Madrid",
+        Player kofi = new Player("Kofi", "LW", "Real Madrid",
         21,78, 70, 78, 79, 72);
 
-        FootballPlayer kofaie = new FootballPlayer("Kofaie", "AM", "Manchester United", 
+        Player kofaie = new Player("Kofaie", "AM", "Manchester United", 
         21, 82, 80, 78, 75, 78);
 
         kofi.displayProfile();
         kofaie.displayProfile();
 
-        
+        System.out.println("=".repeat(30));
+
+        System.out.println(kofi.playerOverall());
     }
 }
