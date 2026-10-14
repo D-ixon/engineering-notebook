@@ -73,22 +73,30 @@ class Player{
     }
     // Train player's shooting
     public int trainShooting(){
-        this.shooting += 2;
+        if (this.shooting <= 100){
+            this.shooting += 2;
+        }  
         return this.shooting;
     }
     // Train player's pace
     public int trainPace(){
-        this.pace += 2;
+        if (this.pace <= 100){
+            this.pace += 2;
+        }
         return this.pace;
     }
     // Train player's passing
     public int trainPassing(){
-        this.passing += 2;
+        if (this.passing <= 100){
+            this.passing += 2;
+        }
         return this.passing;
     }
     // Train player's stamina
     public int trainStamina(){
-        this.stamina += 2;
+        if (this.stamina <= 100){
+            this.stamina += 2;
+        }
         return this.stamina;
     }
 
