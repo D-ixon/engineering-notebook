@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-class Player{
+class Player {
     private String name;
     private String position;
     private String club;
@@ -11,100 +11,155 @@ class Player{
     private int passing;
     private int stamina;
 
-    public Player(String name, String position, String club, int age, int overall, int shooting, int pace, int passing, int stamina){
+    // Parameterized constructor
+    public Player(String name, String position, String club, int age, int shooting, int pace, int passing, int stamina) {
         this.name = name;
         this.position = position;
         this.club = club;
-        this.age = age;
-        this.overall = overall;
-        this.shooting = shooting;
-        this.pace = pace;
-        this.passing = passing;
-        this.stamina = stamina;
+        setAge(age);
+        setShooting(shooting);
+        setPace(pace);
+        setPassing(passing);
+        setStamina(stamina);
+        updateOverall();
     }
 
     // Default constructor
-    public Player(){}
+    public Player() {
+    }
 
-    // Getter
-    public String getName(){
+    // Getters
+    public String getName() {
         return this.name;
     }
-    // Setter for name field
-    public void setName(String name){
-        this.name = name;
-    }
-    // Setter for position field
-    public void setPosition(String position){
-        this.position = position;
-    }
-    // Setter for club name
-    public void setClubName(String club){
-        this.club = club;
-    }
-    // Setter for age
-    public void setAge(int age){
-        this.age = age;
-    }
-    // Setter for overall
-    public void setOverall(int overall){
-        this.overall = overall;
-    }
-    // Setter for shooting
-    public void setShooting(int shooting){
-        this.shooting = shooting;
-    }
-    // setter for pace 
-    public void setPace(int pace){
-        this.pace = pace;
-    }
-    // setter for passing
-    public void setPassing(int passing){
-        this.passing = passing;
-    }
-    // setter for stamina
-    public void setStamina(int stamina){
-        this.stamina = stamina;
+
+    public String getPosition() {
+        return this.position;
     }
 
-    // Calculate player's average skill
-    public double calculateAverageSkill() {
-        return (this.pace + this.shooting + this.passing + this.stamina) / 4.0;
-    }
-    // Train player's shooting
-    public int trainShooting(){
-        if (this.shooting <= 100){
-            this.shooting += 2;
-        }  
-        return this.shooting;
-    }
-    // Train player's pace
-    public int trainPace(){
-        if (this.pace <= 100){
-            this.pace += 2;
-        }
-        return this.pace;
-    }
-    // Train player's passing
-    public int trainPassing(){
-        if (this.passing <= 100){
-            this.passing += 2;
-        }
-        return this.passing;
-    }
-    // Train player's stamina
-    public int trainStamina(){
-        if (this.stamina <= 100){
-            this.stamina += 2;
-        }
-        return this.stamina;
+    public String getClub() {
+        return this.club;
     }
 
-    public int playerOverall(){
-        this.overall = (this.pace + this.shooting + this.passing + this.stamina) / 4;
+    public int getAge() {
+        return this.age;
+    }
+
+    public int getOverall() {
         return this.overall;
     }
 
+    public int getShooting() {
+        return this.shooting;
+    }
+
+    public int getPace() {
+        return this.pace;
+    }
+
+    public int getPassing() {
+        return this.passing;
+    }
+
+    public int getStamina() {
+        return this.stamina;
+    }
+
+    // Setters for player information
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setPosition(String position) {
+        this.position = position;
+    }
+
+    public void setClubName(String club) {
+        this.club = club;
+    }
+
+    public void setAge(int age) {
+        if (age > 0) {
+            this.age = age;
+        } else {
+            System.out.println("Age must be positive.");
+        }
+    }
+
+    // Validate attributes between 0 and 100
+    public void setShooting(int shooting) {
+        if (shooting >= 0 && shooting <= 100) {
+            this.shooting = shooting;
+            updateOverall();
+        } else {
+            System.out.println("Shooting must be between 0 and 100.");
+        }
+    }
+
+    public void setPace(int pace) {
+        if (pace >= 0 && pace <= 100) {
+            this.pace = pace;
+            updateOverall();
+        } else {
+            System.out.println("Pace must be between 0 and 100.");
+        }
+    }
+
+    public void setPassing(int passing) {
+        if (passing >= 0 && passing <= 100) {
+            this.passing = passing;
+            updateOverall();
+        } else {
+            System.out.println("Passing must be between 0 and 100.");
+        }
+    }
+
+    public void setStamina(int stamina) {
+        if (stamina >= 0 && stamina <= 100) {
+            this.stamina = stamina;
+            updateOverall();
+        } else {
+            System.out.println("Stamina must be between 0 and 100.");
+        }
+    }
+
+    // Calculate average skill
+    public double calculateAverageSkill() {
+        return (this.pace + this.shooting + this.passing + this.stamina) / 4.0;
+    }
+
+    // Update overall rating after attribute changes
+    public int updateOverall() {
+        this.overall = (int) Math.round(calculateAverageSkill());
+        return this.overall;
+    }
+
+    // Training methods: increase an attribute by 2, maximum 100
+    public int trainShooting() {
+        this.shooting = Math.min(100, this.shooting + 2);
+        updateOverall();
+        return this.shooting;
+    }
+
+    public int trainPace() {
+        this.pace = Math.min(100, this.pace + 2);
+        updateOverall();
+        return this.pace;
+    }
+
+    public int trainPassing() {
+        this.passing = Math.min(100, this.passing + 2);
+        updateOverall();
+        return this.passing;
+    }
+
+    public int trainStamina() {
+        this.stamina = Math.min(100, this.stamina + 2);
+        updateOverall();
+        return this.stamina;
+    }
+
+    // Display profile
     public void displayProfile() {
         System.out.println("Name: " + this.name);
         System.out.println("Position: " + this.position);
@@ -119,88 +174,117 @@ class Player{
 }
 
 public class PlayerTrainer {
-    
+
     public static void main(String[] args) {
-        System.out.println("=".repeat(8) + "Welcome To Training Lad!" + "=".repeat(8));
         Scanner scanner = new Scanner(System.in);
 
-        // Define an initial player
-        Player kofi = new Player("Kofi", "LW", "Real Madrid",
-        21,78, 70, 78, 79, 72);
+        System.out.println("======== WELCOME TO TRAINING, LAD! ========");
 
+        // Player 1
+        Player kofi = new Player("Kofi", "LW", "Real Madrid", 21, 70, 80,  79,
+        72);
+
+        // Player 2: created using user input
         Player kofaie = new Player();
+
         System.out.print("Enter your football name: ");
         kofaie.setName(scanner.nextLine());
-        
+
         System.out.print("Enter your age: ");
-        kofaie.setAge(scanner.nextInt());
-        
-        System.out.print("Enter your club ");
+        kofaie.setAge(Integer.parseInt(scanner.nextLine()));
+
+        System.out.print("Enter your club: ");
         kofaie.setClubName(scanner.nextLine());
 
         System.out.print("Enter your position: ");
         kofaie.setPosition(scanner.nextLine());
-        
-        System.out.print("Enter your overall: ");
-        kofaie.setOverall(scanner.nextInt());
 
-        System.out.print("Enter your pace: ");
-        kofaie.setPace(scanner.nextInt());
+        System.out.print("Enter your pace (0-100): ");
+        kofaie.setPace(Integer.parseInt(scanner.nextLine()));
 
-        System.out.print("Enter your shooting: ");
-        kofaie.setShooting(scanner.nextInt());
+        System.out.print("Enter your shooting (0-100): ");
+        kofaie.setShooting(Integer.parseInt(scanner.nextLine()));
 
-        System.out.print("Enter your passing: ");
-        kofaie.setPassing(scanner.nextInt());
+        System.out.print("Enter your passing (0-100): ");
+        kofaie.setPassing(Integer.parseInt(scanner.nextLine()));
 
-        System.out.print("Enter your stamina: ");
-        kofaie.setStamina(scanner.nextInt());
+        System.out.print("Enter your stamina (0-100): ");
+        kofaie.setStamina(Integer.parseInt(scanner.nextLine()));
 
-        System.out.println("=".repeat(50));
+        // Show original profiles
+        System.out.println("\n========== INITIAL PROFILES ==========");
 
-        System.out.println(" Your Complete Profile");
+        System.out.println("\n--- Kofi's Profile ---");
+        kofi.displayProfile();
+
+        System.out.println("\n--- " + kofaie.getName() + "'s Profile ---");
         kofaie.displayProfile();
 
-        System.out.println( " Kofaie's Averagae skill before training" + kofaie.calculateAverageSkill());
+        double kofiAverageBefore = kofi.calculateAverageSkill();
+        double kofaieAverageBefore = kofaie.calculateAverageSkill();
 
-        // training drills 
-        System.out.print(" Ready for today's drill? (Y/N): ");
-        scanner.nextLine();               
-        String yes = scanner.nextLine();    
+        // Interactive training menu
+        Player selectedPlayer = kofaie;
+        String choice;
 
-        while (yes.equalsIgnoreCase("Y")) {
-    
-            System.out.println("\nChoose a training drill:");
-            System.out.println(" Enter SH for a shooting drill");
-            System.out.println(" Enter PA for a passing drill");
-            System.out.println(" Enter PC for a pacing drill");
-            System.out.println(" Enter ST for a stamina drill");
-            System.out.print(" Your choice: ");
-    
-            // Read the drill choice here
-            String drill = scanner.nextLine();
+        do {
+            System.out.println("\n========== TRAINING MENU ==========");
+            System.out.println("1. Select Kofi");
+            System.out.println("2. Select " + kofaie.getName());
+            System.out.println("3. Train shooting");
+            System.out.println("4. Train pace");
+            System.out.println("5. Train passing");
+            System.out.println("6. Train stamina");
+            System.out.println("7. Display selected player's profile");
+            System.out.println("8. Exit training");
 
-            // Process the drill choice using your switch expression
-            switch (drill.toUpperCase()) {
-                case "SH" -> System.out.println(kofaie.trainShooting());
-                case "PA" -> System.out.println(kofaie.trainPassing());
-                case "PC" -> System.out.println(kofaie.trainPace());
-                case "ST" -> System.out.println(kofaie.trainStamina());
-                default  -> System.out.println(" Invalid drill code. No training completed.");
-    
+            System.out.print("Choose an option: ");
+            choice = scanner.nextLine();
+
+            switch (choice) {
+                case "1" -> {
+                    selectedPlayer = kofi;
+                    System.out.println("Selected Kofi.");
+                }
+                case "2" -> {
+                    selectedPlayer = kofaie;
+                    System.out.println("Selected " + kofaie.getName() + ".");
+                }
+                case "3" ->
+                    System.out.println("New shooting: "
+                            + selectedPlayer.trainShooting());
+                case "4" ->
+                    System.out.println("New pace: "
+                            + selectedPlayer.trainPace());
+                case "5" ->
+                    System.out.println("New passing: "
+                            + selectedPlayer.trainPassing());
+                case "6" ->
+                    System.out.println("New stamina: "
+                            + selectedPlayer.trainStamina());
+                case "7" -> selectedPlayer.displayProfile();
+                case "8" -> System.out.println("Ending training session...");
+                default -> System.out.println("Invalid choice. Try again.");
             }
 
-            // Ask them again if they want to do *another* drill
-            System.out.print("\n Do you want to choose another drill? (Y/N): ");
-            yes = scanner.nextLine();   
-        }
+        } while (!choice.equals("8"));
 
-        System.out.println( " Kofaie's Averagae skill After training" + kofaie.calculateAverageSkill());
+        // Final profiles and comparison
+        System.out.println("\n========== FINAL PROFILES ==========");
 
-        // This runs as soon as they type "N" or anything else to quit
-        System.out.println(" Exiting program... Goodbye!");
+        System.out.println("\n--- Kofi's Profile ---");
+        kofi.displayProfile();
 
-        System.out.println(" Kofi's Overall: " + kofi.playerOverall());
-        System.out.println(" Kofaie's Overall: " + kofaie.playerOverall());
+        System.out.printf("Average before: %.2f%n", kofiAverageBefore);
+        System.out.printf("Average after:  %.2f%n", kofi.calculateAverageSkill());
+
+        System.out.println("\n--- " + kofaie.getName() + "'s Profile ---");
+        kofaie.displayProfile();
+
+        System.out.printf("Average before: %.2f%n", kofaieAverageBefore);
+        System.out.printf("Average after:  %.2f%n", kofaie.calculateAverageSkill());
+
+        System.out.println("\n========== TRAINING COMPLETE ==========");
+        scanner.close();
     }
 }
