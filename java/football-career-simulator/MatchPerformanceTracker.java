@@ -173,3 +173,34 @@ class Player {
 public class MatchPerformanceTracker {
     
 }
+
+class tracker extends Player {
+    private int appearances;
+    private int goals;
+    private int assists;
+    private double[] matchRatings;
+
+    public void playMatch(int goals, int assists, double ratings){
+
+    }
+
+    public int getGoals(){
+        return 0;
+    }
+
+    public int getAssists(){
+        return 0;
+    }
+
+    public double calculateAverageRating(){
+        return 0;
+    }
+
+    public double getGoalsPerAppearance(){
+        return 0;
+    }
+
+    public void displaySeasonStats(){
+
+    }
+}
