@@ -170,10 +170,6 @@ class Player {
         System.out.println("Stamina: " + this.stamina);
     }
 }
-public class MatchPerformanceTracker {
-    
-}
-
 class tracker extends Player {
     private int appearances;
     private int goals;
@@ -207,3 +203,9 @@ class tracker extends Player {
 
     }
 }
+
+public class MatchPerformanceTracker {
+    
+}
+
+
