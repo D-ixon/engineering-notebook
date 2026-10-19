@@ -185,19 +185,22 @@ class tracker extends Player {
     }
 
     public int getGoals(){
-        return 0;
+        return this.goals;
     }
 
     public int getAssists(){
-        return 0;
+        return this.assists;
     }
 
+    public int getAppearances(){
+        return this.appearances;
+    }
     public double calculateAverageRating(){
         return 0;
     }
 
     public double getGoalsPerAppearance(){
-        return 0;
+        return (int) Math.round(this.goals / this.appearances);
     }
 
     public void displaySeasonStats(){
