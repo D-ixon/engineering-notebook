@@ -177,7 +177,11 @@ class tracker extends Player {
     private double[] matchRatings;
 
     public void playMatch(int goals, int assists, double ratings){
-
+        if (goals >= 0 || assists >= 0 || (ratings >= 0.0 || ratings <= 10.0)){
+            this.appearances += 1;
+            this.goals += 1;
+            this.assists += 1;
+        }
     }
 
     public int getGoals(){
@@ -205,7 +209,9 @@ class tracker extends Player {
 }
 
 public class MatchPerformanceTracker {
-    
+    public static void main(String[] args) {
+        
+    }
 }
 
 
