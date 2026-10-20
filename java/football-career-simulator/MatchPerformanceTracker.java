@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 class Player {
     private String name;
     private String position;
@@ -174,13 +175,14 @@ class tracker extends Player {
     private int appearances;
     private int goals;
     private int assists;
-    private double[] matchRatings;
+    private ArrayList<Double> matchRatings = new ArrayList<>();
 
     public void playMatch(int goals, int assists, double ratings){
         if (goals >= 0 || assists >= 0 || (ratings >= 0.0 || ratings <= 10.0)){
             this.appearances += 1;
-            this.goals += 1;
-            this.assists += 1;
+            this.goals += goals;
+            this.assists += assists;
+            matchRatings.add(ratings);
         }
     }
 
