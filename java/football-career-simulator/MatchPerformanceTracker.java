@@ -1,5 +1,7 @@
 import java.util.ArrayList;
+
 class Player {
+
     private String name;
     private String position;
     private String club;
@@ -171,6 +173,7 @@ class Player {
         System.out.println("Stamina: " + this.stamina);
     }
 }
+
 class tracker extends Player {
     private int appearances;
     private int goals;
@@ -189,6 +192,7 @@ class tracker extends Player {
     public int getGoals(){
         return this.goals;
     }
+
 
     public int getAssists(){
         return this.assists;
