@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-
 class Player {
 
     private String name;
@@ -174,43 +172,61 @@ class Player {
     }
 }
 
-class tracker extends Player {
-    private int appearances;
-    private int goals;
-    private int assists;
-    private ArrayList<Double> matchRatings = new ArrayList<>();
+class Tracker extends Player {
+    private int appearances = 0;
+    private int goals = 0;
+    private int assists = 0;
+    private double[] matchRatings = new double[38];
 
     public void playMatch(int goals, int assists, double ratings){
-        if (goals >= 0 || assists >= 0 || (ratings >= 0.0 || ratings <= 10.0)){
+        if (goals >= 0 && assists >= 0 && (ratings >= 0.0 && ratings <= 10.0) && appearances < 38){
+            
+            matchRatings[appearances] = ratings;
+            
             this.appearances += 1;
-            this.goals += goals;
-            this.assists += assists;
-            matchRatings.add(ratings);
+            this.goals += goals;   
+            this.assists += assists; 
         }
     }
 
+    // Getters
     public int getGoals(){
         return this.goals;
     }
-
-
     public int getAssists(){
         return this.assists;
     }
-
     public int getAppearances(){
         return this.appearances;
     }
-    public double calculateAverageRating(){
-        return 0;
-    }
-
     public double getGoalsPerAppearance(){
-        return (int) Math.round(this.goals / this.appearances);
+        double GPA = 0;
+        if (getAppearances() > 0){
+            GPA = (double) getGoals() / getAppearances();
+        }
+        return GPA;
+    }
+    
+    public double calculateAverageRating(){
+        if (getAppearances() == 0) {
+            return 0.0;
+        }
+
+        double sum = 0.0;
+        for (int i = 0; i < getAppearances(); i++) {
+            sum += matchRatings[i];
+        }
+        return sum / getAppearances();
     }
 
     public void displaySeasonStats(){
-
+        System.out.println( "\n=".repeat(8) + " PLAYER SEASON STATS " + "=".repeat(8));
+        System.out.println( " Name " + this.getName());
+        System.out.println( " Players " + this.getAppearances());
+        System.out.println( " Goals " + this.getGoals());
+        System.out.println( " Goals per Appearances " + getGoalsPerAppearance());
+        System.out.println( " Assists " + this.getAssists());
+        System.out.println( " Average Ratings " + this.calculateAverageRating()+ "\n");
     }
 }
 
@@ -219,5 +235,4 @@ public class MatchPerformanceTracker {
         
     }
 }
-
 
