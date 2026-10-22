@@ -231,9 +231,9 @@ class Tracker extends Player {
         System.out.println( " Name:                  " + this.getName());
         System.out.println( " Appearances:           " + this.getAppearances());
         System.out.println( " Goals:                 " + this.getGoals());
-        System.out.println( " Goals per Appearances: " + getGoalsPerAppearance());
+        System.out.println( " Goals per Appearances: " + String.format("%.2f", this.getGoalsPerAppearance()));
         System.out.println( " Assists:               " + this.getAssists());
-        System.out.println( " Average Ratings:       " + this.calculateAverageRating()+ "\n");
+        System.out.println( " Average Ratings:       " + String.format("%.2f", this.calculateAverageRating())+ "\n");
     }
 }
 
