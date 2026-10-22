@@ -11,6 +11,7 @@ class Player {
     private int stamina;
 
     // Parameterized constructor
+    @SuppressWarnings("OverridableMethodCallInConstructor")
     public Player(String name, String position, String club, int age, int shooting, int pace, int passing, int stamina) {
         this.name = name;
         this.position = position;
@@ -176,6 +177,7 @@ class Tracker extends Player {
     private int appearances = 0;
     private int goals = 0;
     private int assists = 0;
+    @SuppressWarnings("FieldMayBeFinal")
     private double[] matchRatings = new double[38];
 
     // Child Constructor
@@ -225,13 +227,13 @@ class Tracker extends Player {
     }
 
     public void displaySeasonStats(){
-        System.out.println( "\n=".repeat(8) + " PLAYER SEASON STATS " + "=".repeat(8));
-        System.out.println( " Name " + this.getName());
-        System.out.println( " Players " + this.getAppearances());
-        System.out.println( " Goals " + this.getGoals());
-        System.out.println( " Goals per Appearances " + getGoalsPerAppearance());
-        System.out.println( " Assists " + this.getAssists());
-        System.out.println( " Average Ratings " + this.calculateAverageRating()+ "\n");
+        System.out.println( "=".repeat(8) + " PLAYER SEASON STATS " + "=".repeat(8));
+        System.out.println( " Name:                  " + this.getName());
+        System.out.println( " Appearances:           " + this.getAppearances());
+        System.out.println( " Goals:                 " + this.getGoals());
+        System.out.println( " Goals per Appearances: " + getGoalsPerAppearance());
+        System.out.println( " Assists:               " + this.getAssists());
+        System.out.println( " Average Ratings:       " + this.calculateAverageRating()+ "\n");
     }
 }
 
@@ -239,6 +241,10 @@ public class MatchPerformanceTracker {
     public static void main(String[] args) {
         
         Tracker dan = new Tracker("Dan", "LW", "Real Madrid", 21, 67, 78, 67, 70);
+
+        System.out.printf(""" 
+            
+            Average Rating Before Matches - %.2f%n""", dan.calculateAverageRating());
         
         dan.playMatch(3, 1, 8.9);
         dan.playMatch(1, 0, 7.8);
