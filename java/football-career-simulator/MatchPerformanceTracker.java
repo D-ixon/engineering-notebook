@@ -178,6 +178,11 @@ class Tracker extends Player {
     private int assists = 0;
     private double[] matchRatings = new double[38];
 
+    // Child Constructor
+    public Tracker(String name, String position, String club, int age, int shooting, int pace, int passing, int stamina){
+        super(name, position, club, age, shooting, pace, passing, stamina);
+    }
+
     public void playMatch(int goals, int assists, double ratings){
         if (goals >= 0 && assists >= 0 && (ratings >= 0.0 && ratings <= 10.0) && appearances < 38){
             
@@ -233,6 +238,14 @@ class Tracker extends Player {
 public class MatchPerformanceTracker {
     public static void main(String[] args) {
         
+        Tracker dan = new Tracker("Dan", "LW", "Real Madrid", 21, 67, 78, 67, 70);
+        
+        dan.playMatch(3, 1, 8.9);
+        dan.playMatch(1, 0, 7.8);
+        dan.playMatch(0, 1, 7.2);
+
+        dan.displaySeasonStats();
+
     }
 }
 
