@@ -12,6 +12,7 @@ class Player {
     private int stamina;
 
     // Parameterized constructor
+    @SuppressWarnings("OverridableMethodCallInConstructor")
     public Player(String name, String position, String club, int age, int shooting, int pace, int passing, int stamina) {
         this.name = name;
         this.position = position;
@@ -175,6 +176,7 @@ class Player {
 
 public class PlayerTrainer {
 
+    @SuppressWarnings("ConvertToTryWithResources")
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
