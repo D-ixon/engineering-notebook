@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include <stdlib.h> // Required for malloc and free
+#include <stdlib.h> 
 
 int main() {
     int iterations = 10;
