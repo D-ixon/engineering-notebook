@@ -176,10 +176,19 @@ class Striker extends Player{
     public Striker(String name, String position, String club, int age, int shooting, int pace, int passing, int stamina){
         super(name, position, club, age, shooting, pace, passing, stamina);
     }
+
+    // @Override 
+    public void performSpecialAbility(){
+        System.out.println(" Player taking a powerful shot at goal");
+    }
 }
 class Midfielder extends Player{
     public Midfielder(String name, String position, String club, int age, int shooting, int pace, int passing, int stamina){
         super(name, position, club, age, shooting, pace, passing, stamina);
+    }
+
+    public void performSpecialAbility(){
+        System.out.println(" Player making a line-breaking pass");
     }
 }
 
@@ -187,11 +196,18 @@ class GoalKeeper extends Player{
     public GoalKeeper(String name, String position, String club, int age, int shooting, int pace, int passing, int stamina){
         super(name, position, club, age, shooting, pace, passing, stamina);
     }
+
+    public void performSpecialAbilit(){
+        System.out.println(" diving save");
+    }
 }
+
 
 public class PositionsAbility{
     public static void main(String[] args){
-
+        Striker ST = new Striker("Kofi", "ST", "Real Madrid", 22, 88, 87, 75, 78);
+        Midfielder MD = new Midfielder("Kofi", "MD", "Real Madrid", 21, 78, 87, 75, 78);
+        GoalKeeper GK = new GoalKeeper("leno", "GK", "Real Madrid", 22, 56, 65, 79, 90);
     }
 }
 
