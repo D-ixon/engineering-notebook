@@ -1,3 +1,5 @@
+
+
 class Player {
     private String name;
     private String position;
@@ -169,6 +171,12 @@ class Player {
         System.out.println("Shooting: " + this.shooting);
         System.out.println("Passing: " + this.passing);
         System.out.println("Stamina: " + this.stamina);
+
+        
+    }
+
+    public void performSpecialAbility() {
+        System.out.println("Performing special ability");
     }
 }
 
@@ -177,18 +185,20 @@ class Striker extends Player{
         super(name, position, club, age, shooting, pace, passing, stamina);
     }
 
-    // @Override 
+    @Override 
     public void performSpecialAbility(){
-        System.out.println(" Player taking a powerful shot at goal");
+        System.out.println(" Ooooooo what a shot ");
     }
 }
+
 class Midfielder extends Player{
     public Midfielder(String name, String position, String club, int age, int shooting, int pace, int passing, int stamina){
         super(name, position, club, age, shooting, pace, passing, stamina);
     }
 
+    @Override 
     public void performSpecialAbility(){
-        System.out.println(" Player making a line-breaking pass");
+        System.out.println(" What a line-breaking pass");
     }
 }
 
@@ -197,17 +207,22 @@ class GoalKeeper extends Player{
         super(name, position, club, age, shooting, pace, passing, stamina);
     }
 
-    public void performSpecialAbilit(){
-        System.out.println(" diving save");
+    @Override
+    public void performSpecialAbility(){
+        System.out.println(" spectacular diving save");
     }
 }
 
 
 public class PositionsAbility{
     public static void main(String[] args){
-        Striker ST = new Striker("Kofi", "ST", "Real Madrid", 22, 88, 87, 75, 78);
-        Midfielder MD = new Midfielder("Kofi", "MD", "Real Madrid", 21, 78, 87, 75, 78);
-        GoalKeeper GK = new GoalKeeper("leno", "GK", "Real Madrid", 22, 56, 65, 79, 90);
+
+        Player[] players = {new Striker("Kane", "ST", "Real Madrid", 23, 89, 78, 82, 88), 
+            new Midfielder("Ader Guller", "AM", "Real Madrid", 21, 81, 82, 89, 85), 
+            new GoalKeeper("Courtois", "GK", "Real Madrid", 32, 72, 52, 78, 88)
+        };
+        
+        
     }
 }
 
