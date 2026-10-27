@@ -1,5 +1,3 @@
-
-
 class Player {
     private String name;
     private String position;
@@ -222,6 +220,9 @@ public class PositionsAbility{
             new GoalKeeper("Courtois", "GK", "Real Madrid", 32, 72, 52, 78, 88)
         };
         
+        for (Player player : players){
+            player.performSpecialAbility();
+        }
         
     }
 }
