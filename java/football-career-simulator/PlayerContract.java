@@ -14,7 +14,10 @@ abstract class FootballContract{
     abstract int calculateTotalContractValue();
 
     public void displayContract(){
-
+        System.out.println("\n Player Name: " + this.playerName);
+        System.out.println(" Current Club: " + this.club);
+        System.out.println(" Player's Weekly Wages: " + this.weeklyWage);
+        System.out.println(" Contract Duration: " + this.contractYears + "\n");
     }
 }
 
@@ -28,7 +31,7 @@ class StandardContract extends FootballContract{
     int calculateTotalContractValue(){
         int standardContract;
         standardContract = this.weeklyWage * 52 * this.contractYears;
-        return 0;
+        return standardContract;
     }
 }
 
@@ -40,11 +43,15 @@ class BonusContract extends FootballContract{
 
     @Override 
     int calculateTotalContractValue(){
-        return 0;
+        int signingBonus = 0; 
+        int bonusContract = this.weeklyWage * 52 * this.contractYears + signingBonus;
+        return bonusContract;
     }
 }
 public class PlayerContract {
     public static void main (String[] args) {
+
+        System.out.println(" =================PLAYER CONTRACT===================");
 
     }
 }
