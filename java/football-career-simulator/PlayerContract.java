@@ -1,11 +1,11 @@
 abstract class FootballContract{
     private String playerName;
     private String club;
-    private int weeklyWage;
-    private int contractYears;
+    private double weeklyWage;
+    private double contractYears;
 
  
-    public FootballContract(String playerName, String club, int weeklyWage, int contractYears){
+    public FootballContract(String playerName, String club, double weeklyWage, int contractYears){
         this.playerName = playerName;
         this.club = club;
         this.weeklyWage = weeklyWage;
@@ -21,16 +21,16 @@ abstract class FootballContract{
         return club;
     }
 
-    public int getWeeklyWage() {
+    public double getWeeklyWage() {
         return weeklyWage;
     }
 
-    public int getContractYears() {
+    public double getContractYears() {
         return contractYears;
     }
    
 
-    abstract int calculateTotalContractValue();
+    abstract double calculateTotalContractValue();
 
     public void displayContract(){
         System.out.println("\n Player Name: " + this.playerName);
@@ -47,16 +47,15 @@ class StandardContract extends FootballContract{
     }
 
     @Override 
-    public int calculateTotalContractValue(){
-        int standardContract;
-        standardContract = this.getWeeklyWage() * 52 * this.getContractYears();
+    public double  calculateTotalContractValue(){
+        double standardContract = this.getWeeklyWage() * 52 * this.getContractYears();
         return standardContract;
     }
 }
 
 class BonusContract extends FootballContract{
 
-    private int signingBonus;
+    private double signingBonus;
 
     public BonusContract(String playerName, String club, int weeklyWage, int contractYears, int signingBonus){
         super(playerName, club, weeklyWage, contractYears);
@@ -64,8 +63,8 @@ class BonusContract extends FootballContract{
     }
 
     @Override 
-    public int calculateTotalContractValue(){
-        int bonusContract = this.getWeeklyWage() * 52 * this.getContractYears() + this.signingBonus;
+    public double calculateTotalContractValue(){
+        double bonusContract = this.getWeeklyWage() * 52 * this.getContractYears() + this.signingBonus;
         return bonusContract;
     }
 }
@@ -75,11 +74,14 @@ public class PlayerContract {
         System.out.println("=================PLAYER CONTRACT===================");
 
         StandardContract Contract1 = new StandardContract("Bismark", "Real Madrid", 20000, 5);
-        BonusContract Contract2 = new BonusContract("Kofi", "Manchester United", 400000, 3, 7000);
+        BonusContract Contract2 = new BonusContract("Kofi", "Manchester United", 400000, 3, 
+        70);
 
         Contract1.displayContract();
-        System.out.println(" GHC" + Contract1.calculateTotalContractValue());
-        System.out.println(" GHC" + Contract2.calculateTotalContractValue());
+        System.out.printf(" Standard contract GHC %,.2f%n", Contract1.calculateTotalContractValue());
+
+        Contract2.displayContract();
+        System.out.printf("Contract Plus Signing Bonus GHC %,.2f%n", Contract2.calculateTotalContractValue());
 
     }
 }
