@@ -215,9 +215,14 @@ class GoalKeeper extends Player{
 public class PositionsAbility{
     public static void main(String[] args){
 
-        Player[] players = {new Striker("Kane", "ST", "Real Madrid", 23, 89, 78, 82, 88), 
-            new Midfielder("Ader Guller", "AM", "Real Madrid", 21, 81, 82, 89, 85), 
-            new GoalKeeper("Courtois", "GK", "Real Madrid", 32, 72, 52, 78, 88)
+        Player[] players = {
+            new Striker("Kane", "ST", "Real Madrid", 23, 89, 78, 82,
+             88), 
+            new Midfielder("Ader Guller", "AM", "Real Madrid", 21, 81, 82, 89,
+             85), 
+            new GoalKeeper("Courtois", "GK", "Real Madrid", 32, 72, 52, 78,
+             88)
+
         };
         
         for (Player player : players){
