@@ -1,15 +1,13 @@
 class MyClass:
-    variable = "Hey"
-    def func(self):
-        print("This cool!")
 
-firstobject = MyClass()
-secondobject = MyClass()
+    def __init__(self, number):
+        self.number = number
 
-print(firstobject.variable)
+    def returnNumber(self):
+        return self.number
 
-secondobject.variable = "Nose"
 
-print(secondobject.variable)
-firstobject.func()
+cons = MyClass(8)
+print(cons.returnNumber())
+
 
