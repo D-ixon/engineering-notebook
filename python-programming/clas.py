@@ -11,3 +11,10 @@ cons = MyClass(8)
 print(cons.returnNumber())
 
 
+phoneBook = {
+    "John": "555-1234",
+    "Jane": "555-5678",
+    "Bob": "555-8765"
+}
+print(phoneBook.pop("Jane"))
+
