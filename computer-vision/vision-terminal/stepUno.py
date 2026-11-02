@@ -8,13 +8,17 @@ class Image:
         self.channels = channels
         self.file_size = file_size
 
-    def totalPixel(self):
+    def total_pixel(self):
         return self.width * self.height
 
-    def imageColor(self):
+    def image_color(self):
 
         return image
 
-    def displayImageInfo(self):
+    def display_image_info(self):
 
-        return self
+        print(f"Image ID: {self.image_id}")
+        print(f"Filename: {self.filename}")
+        print(f"Width: {self.width} pixels")
+        print(f"Height: {self.height} pixels")
+        print(f"Channels: {self.channels}")
