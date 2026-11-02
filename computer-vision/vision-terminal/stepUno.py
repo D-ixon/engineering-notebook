@@ -7,3 +7,14 @@ class Image:
         self.height = height
         self.channels = channels
         self.file_size = file_size
+
+    def totalPixel(self):
+        return self.width * self.height
+
+    def imageColor(self):
+
+        return image
+
+    def displayImageInfo(self):
+
+        return self
