@@ -30,5 +30,18 @@ class Image:
 
 class ImageManager:
 
-    def total_pixel_count():
-        return pixel
+    def __init__(self, image_id, image_type, pixel_height, pixel_width, channel, file_size):
+        self.image_id = image_id
+        self.image_type = image_type
+        self.pixel_height = pixel_height
+        self.pixel_width = pixel_width
+        self.channel = channel
+        self.file_size = file_size
+
+    def register_image(imgae):
+        image_id = input("Enter image ID: ")
+        image_type = input("Enter image type: ")
+        pixel_height = int(input("Enter pixel heigth: "))
+        pixel_width = int(input("Enter pixel width"))
+        channel = int(input("Enter channel: "))
+        file_size = float(input("Enter file size: "))
