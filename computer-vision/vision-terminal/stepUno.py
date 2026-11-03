@@ -12,13 +12,23 @@ class Image:
         return self.width * self.height
 
     def image_color(self):
-
-        return image
+        if self.channels == 1:
+            return "GrayScale Image"
+        elif self.channels == 3:
+            return "Color RGB"
+        return "Unkown"
 
     def display_image_info(self):
 
         print(f"Image ID: {self.image_id}")
         print(f"Filename: {self.filename}")
+        print(f"Resolution: {self.height} x {self.width}")
         print(f"Width: {self.width} pixels")
         print(f"Height: {self.height} pixels")
         print(f"Channels: {self.channels}")
+        print(f"File size: {self.file_size}")
+
+class ImageManager:
+
+    def total_pixel_count():
+        return pixel
