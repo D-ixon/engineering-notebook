@@ -168,7 +168,7 @@ class Player {
         System.out.println("Pace: " + this.pace);
         System.out.println("Shooting: " + this.shooting);
         System.out.println("Passing: " + this.passing);
-        System.out.println("Stamina: " + this.stamina);
+        System.out.println("Stamina: " + this.stamina + "\n");
     }
 }
 
@@ -193,11 +193,11 @@ class CaptainPlayer extends Player implements Captain{
 
     @Override 
     public void giveTeamTalk(){
-        System.out.println("we can do it boys");
+        System.out.println("\nwe can do it boys\n");
     }
     @Override
     public void organisePlayers(){
-        System.out.println("Lets come together boys");
+        System.out.println("Lets come together boys\n");
     }
 }
 
@@ -211,7 +211,7 @@ class FreeKickPlayer extends Player implements FreeKickSpecialist{
     }
     @Override 
     public void takeFreeKick(){
-        System.out.println("FreeKick taken");
+        System.out.println("\nFreeKick taken\n");
     }
 }
 
@@ -223,20 +223,35 @@ class StarPlayer extends Player implements Captain, PenaltyTaker{
 
     @Override 
     public void takePenalty(){
-        System.out.println("What a kick");
+        System.out.println("\nWhat a kick\n");
     }
     @Override 
     public void giveTeamTalk(){
-        System.out.println("we can do it boys");
+        System.out.println("we can do it boys\n");
     }
     @Override
     public void organisePlayers(){
-        System.out.println("Lets come together boys");
+        System.out.println("Lets come together boys\n");
     }
 }
 
 public class PlayerAbilities{
     public static void main(String[] args){
 
+        System.out.println("\n =========================Player Abilities==========================\n");
+        CaptainPlayer Capitan = new CaptainPlayer("Dan", "LW", "Forest", 21, 88, 88, 98, 97);
+        FreeKickPlayer Kicker = new FreeKickPlayer("Dan", "LW", "Forest", 21, 88, 88, 98, 97);
+        StarPlayer Star = new StarPlayer("Jones", "CM", "Forest", 22, 78, 89, 88, 90);
+
+        Capitan.displayProfile();
+        Capitan.giveTeamTalk();
+        Capitan.organisePlayers();
+
+        Kicker.displayProfile();
+        Kicker.takeFreeKick();
+
+        Star.displayProfile();
+        Star.takePenalty();
+        
     }
 }
