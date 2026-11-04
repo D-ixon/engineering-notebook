@@ -207,8 +207,6 @@ class FreeKickPlayer extends Player implements FreeKickSpecialist{
         super(name, position, club, age, shooting, pace, passing, stamina);
     }
 
-    public FreeKickPlayer() {
-    }
     @Override 
     public void takeFreeKick(){
         System.out.println("\nFreeKick taken\n");
@@ -239,13 +237,13 @@ public class PlayerAbilities{
     public static void main(String[] args){
 
         System.out.println("\n =========================Player Abilities==========================\n");
-        CaptainPlayer Capitan = new CaptainPlayer("Dan", "LW", "Forest", 21, 88, 88, 98, 97);
+        CaptainPlayer captain = new CaptainPlayer("Dan", "LW", "Forest", 21, 88, 88, 98, 97);
         FreeKickPlayer Kicker = new FreeKickPlayer("Dan", "LW", "Forest", 21, 88, 88, 98, 97);
         StarPlayer Star = new StarPlayer("Jones", "CM", "Forest", 22, 78, 89, 88, 90);
 
-        Capitan.displayProfile();
-        Capitan.giveTeamTalk();
-        Capitan.organisePlayers();
+        captain.displayProfile();
+        captain.giveTeamTalk();
+        captain.organisePlayers();
 
         Kicker.displayProfile();
         Kicker.takeFreeKick();
