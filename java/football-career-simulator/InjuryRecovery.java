@@ -41,12 +41,31 @@ class Injury{
             this.isRecovered = true;
         }
     }
-    
+
+    public String getInjuryName(){
+        return this.injuryName;
+    }
+    public String getSeverity(){
+        return this.severity;
+    }
+    public boolean getIsRecovered(){
+        return this.isRecovered;
+    }
+
+    public void displayInjuryInfo(){
+        System.out.println("Injured player's name: " + getInjuryName());
+        System.out.println("Injury Severity: " + getSeverity());
+        System.out.println("Check recovery status " + getIsRecovered());
+    }
 }
 
 
 public class InjuryRecovery{
     public static void main(String[] args) {
+
+        Injury vettle = new Injury("Felix", "somt", 40, 
+        false);
         
+
     }
 }
