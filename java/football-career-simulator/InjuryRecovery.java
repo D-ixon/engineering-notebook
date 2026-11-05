@@ -21,6 +21,14 @@ class Injury{
 
         this.recoveryDays = days;
     }
+
+    public void setSeverity(String severity){
+        if (severity == "Minor" || severity == "Moderate" || severity == "Severe"){
+            this.severity = severity;
+        }else{
+            throw new IllegalArgumentException("Injury severity can only be Moderate or Minor or Severe");
+        }
+    }
     
 }
 
