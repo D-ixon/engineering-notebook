@@ -29,6 +29,18 @@ class Injury{
             throw new IllegalArgumentException("Injury severity can only be Moderate or Minor or Severe");
         }
     }
+
+    public void recovery(int days){
+        if (days < 0){
+            throw new IllegalArgumentException("Recovery days cannot be negative: " + days);
+        }
+        if (this.recoveryDays > days){
+            throw new IllegalArgumentException("The player's recovery days cant be more than the remaningrecovery period");
+        }
+        if (this.recoveryDays == 0 ){
+            this.isRecovered = true;
+        }
+    }
     
 }
 
