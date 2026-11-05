@@ -1,0 +1,32 @@
+class Injury{
+    private String injuryName;
+    private String severity;
+    private int recoveryDays;
+    private boolean isRecovered;
+    
+    public Injury(String injuryName, String Severity, int recoveredDays, boolean isRecovered){
+        this.injuryName = injuryName;
+        this.severity = Severity;
+        this.recoveryDays = recoveredDays;
+        this.isRecovered = isRecovered; 
+    }
+
+    public void setRecoveryDays(int days){
+        if (days < 0){
+            throw new IllegalArgumentException("Recovery days cannot be negative: " + days);
+        }
+        if (days > 365){
+            throw new IllegalArgumentException("Recovery days cannot exceed 365: " + days);
+        }
+
+        this.recoveryDays = days;
+    }
+    
+}
+
+
+public class InjuryRecovery{
+    public static void main(String[] args) {
+        
+    }
+}
