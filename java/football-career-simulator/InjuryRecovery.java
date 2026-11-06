@@ -66,6 +66,7 @@ public class InjuryRecovery{
         Injury vettle = new Injury("Felix", "somt", 40, 
         false);
         
+        vettle.displayInjuryInfo();
 
     }
 }
