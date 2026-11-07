@@ -1,0 +1,63 @@
+#! /opt/homebrew/Cellar/icarus-verilog/13.0/bin/vvp
+:ivl_version "13.0 (stable)" "(v13_0)";
+:ivl_delay_selection "TYPICAL";
+:vpi_time_precision - 12;
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/system.vpi";
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_sys.vpi";
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_textio.vpi";
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2005_math.vpi";
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/va_math.vpi";
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2009.vpi";
+S_0x102bc44d0 .scope package, "$unit" "$unit" 2 1;
+ .timescale 0 0;
+S_0x102bc4650 .scope module, "tb_example_and_gate" "tb_example_and_gate" 3 3;
+ .timescale -9 -12;
+v0x102bc95d0_0 .net "and_result", 0 0, L_0x102bc9860;  1 drivers
+v0x102bc9670_0 .var "input_1", 0 0;
+v0x102bc9710_0 .var "input_2", 0 0;
+S_0x102bc2350 .scope module, "uut" "example_and_gate" 3 10, 4 1 0, S_0x102bc4650;
+ .timescale 0 0;
+    .port_info 0 /INPUT 1 "input_1";
+    .port_info 1 /INPUT 1 "input_2";
+    .port_info 2 /OUTPUT 1 "and_result";
+L_0x102bc97d0 .functor AND 1, v0x102bc9670_0, v0x102bc9710_0, C4<1>, C4<1>;
+L_0x102bc9860 .functor BUFZ 1, L_0x102bc97d0, C4<0>, C4<0>, C4<0>;
+v0x102bc24d0_0 .net "and_result", 0 0, L_0x102bc9860;  alias, 1 drivers
+v0x102bc93a0_0 .net "and_temp", 0 0, L_0x102bc97d0;  1 drivers
+v0x102bc9450_0 .net "input_1", 0 0, v0x102bc9670_0;  1 drivers
+v0x102bc9510_0 .net "input_2", 0 0, v0x102bc9710_0;  1 drivers
+    .scope S_0x102bc4650;
+T_0 ;
+    %vpi_call/w 3 17 "$dumpfile", "and_gate.vcd" {0 0 0};
+    %vpi_call/w 3 18 "$dumpvars", 32'sb00000000000000000000000000000000, S_0x102bc4650 {0 0 0};
+    %vpi_call/w 3 20 "$monitor", "time=%0t input_1=%b input_2=%b output=%b", $time, v0x102bc9670_0, v0x102bc9710_0, v0x102bc95d0_0 {0 0 0};
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x102bc9670_0, 0, 1;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x102bc9710_0, 0, 1;
+    %delay 10000, 0;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x102bc9670_0, 0, 1;
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v0x102bc9710_0, 0, 1;
+    %delay 10000, 0;
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v0x102bc9670_0, 0, 1;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x102bc9710_0, 0, 1;
+    %delay 10000, 0;
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v0x102bc9670_0, 0, 1;
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v0x102bc9710_0, 0, 1;
+    %delay 10000, 0;
+    %vpi_call/w 3 35 "$finish" {0 0 0};
+    %end;
+    .thread T_0;
+# The file index is used to find the file name in the following table.
+:file_names 5;
+    "N/A";
+    "<interactive>";
+    "-";
+    "tb_example_and_gate.v";
+    "example_and_gate.v";

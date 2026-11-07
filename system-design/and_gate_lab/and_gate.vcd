@@ -1,0 +1,41 @@
+$date
+	Wed Oct 28 16:05:10 2026
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1ps
+$end
+$scope module tb_example_and_gate $end
+$var wire 1 ! and_result $end
+$var reg 1 " input_1 $end
+$var reg 1 # input_2 $end
+$scope module uut $end
+$var wire 1 ! and_result $end
+$var wire 1 $ and_temp $end
+$var wire 1 " input_1 $end
+$var wire 1 # input_2 $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+$comment Show the parameter values. $end
+$dumpall
+$end
+#0
+$dumpvars
+0$
+0#
+0"
+0!
+$end
+#10000
+1#
+#20000
+0#
+1"
+#30000
+1!
+1$
+1#
+#40000
