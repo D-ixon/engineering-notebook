@@ -28,3 +28,12 @@ __pycache__/
 *.user
 *.suo
 appsettings.Development.json
+
+# Simulation executables
+*_sim
+
+# Waveform files
+*.vcd
+
+# Other simulation outputs
+*.vvp

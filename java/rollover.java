@@ -15,6 +15,7 @@ class States {
 }
 
 public class rollover {
+    @SuppressWarnings("ConvertToTryWithResources")
     public static void main(String[] args) {
         States roll = new States();
 
