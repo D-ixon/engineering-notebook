@@ -23,7 +23,7 @@ class Injury{
     }
 
     public void setSeverity(String severity){
-        if (severity == "Minor" || severity == "Moderate" || severity == "Severe"){
+        if ("Minor".equals(severity) || "Moderate".equals(severity) || "Severe".equals(severity)){
             this.severity = severity;
         }else{
             throw new IllegalArgumentException("Injury severity can only be Moderate or Minor or Severe");
