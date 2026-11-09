@@ -37,7 +37,7 @@ class Image:
         print(f"Resolution: {self.height} x {self.width}")
         print(f"Width: {self.width} pixels")
         print(f"Height: {self.height} pixels")
-        print(f"Channels: {self.channels}")
+        print(f"Channels: {self.image_color()}")
         print(f"File size: {self.file_size}")
         print(f"Image Aspect Ratio: {ratio_width} : {ratio_height}")
 
