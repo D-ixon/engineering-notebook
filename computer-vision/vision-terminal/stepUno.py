@@ -1,4 +1,4 @@
-import math
+from math import gcd
 
 class Image: 
 
@@ -21,12 +21,16 @@ class Image:
         return "Unkown"
 
     def image_aspect_ratio(self):
-        return math.gcd(self.width / self.height)
-        
+        divisor = gcd(self.width, self.height)
 
-    
+        ratio_width = self.width // divisor
+        ratio_height = self.height // divisor
+
+        return ratio_width, ratio_height  
 
     def display_image_info(self):
+
+        ratio_width, ratio_height = self.image_aspect_ratio()
 
         print(f"Image ID: {self.image_id}")
         print(f"Filename: {self.filename}")
@@ -35,6 +39,7 @@ class Image:
         print(f"Height: {self.height} pixels")
         print(f"Channels: {self.channels}")
         print(f"File size: {self.file_size}")
+        print(f"Image Aspect Ratio: {ratio_width} : {ratio_height}")
 
 class ImageManager:
 
