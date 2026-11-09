@@ -1,3 +1,5 @@
+import math
+
 class Image: 
 
     def __init__(self, image_id, filename, width, height, channels, file_size):
@@ -17,6 +19,12 @@ class Image:
         elif self.channels == 3:
             return "Color RGB"
         return "Unkown"
+
+    def image_aspect_ratio(self):
+        return math.gcd(self.width / self.height)
+        
+
+    
 
     def display_image_info(self):
 
@@ -45,3 +53,8 @@ class ImageManager:
         pixel_width = int(input("Enter pixel width"))
         channel = int(input("Enter channel: "))
         file_size = float(input("Enter file size: "))
+
+    def display_all_images(self):
+        for image in self.Images:
+            Images.display_image_info()
+
