@@ -11,18 +11,22 @@ class Image:
         self.file_size = file_size
 
     def total_pixel(self):
+        if self.width <= 0 or self.height <= 0:
+            raise ValueError("Width and Height must be positive integers.")
         return self.width * self.height
 
     def image_color(self):
         if self.channels == 1:
-            return "GrayScale Image"
+            return "Grayscale Image"
         elif self.channels == 3:
             return "Color RGB"
-        return "Unkown"
+        return "Unknown"
 
     def image_aspect_ratio(self):
         divisor = gcd(self.width, self.height)
 
+        if divisor == 0:
+            raise ValueError("Width and Height must be positive integers.")
         ratio_width = self.width // divisor
         ratio_height = self.height // divisor
 
