@@ -1,5 +1,6 @@
 from math import gcd
 
+# fault: consider input validation for width, height, and channels to ensure they are positive integers. Also, consider adding error handling for file size input.
 class Image: 
 
     def __init__(self, image_id, filename, width, height, channels, file_size):
@@ -38,22 +39,23 @@ class Image:
 
         print(f"Image ID: {self.image_id}")
         print(f"Filename: {self.filename}")
-        print(f"Resolution: {self.height} x {self.width}")
+        print(f"Resolution: {self.width} x {self.height}")
         print(f"Width: {self.width} pixels")
         print(f"Height: {self.height} pixels")
+        print(f"Total Pixels: {self.total_pixel()} pixels")
         print(f"Channels: {self.image_color()}")
-        print(f"File size: {self.file_size}")
+        print(f"File size: {self.file_size} KB")
         print(f"Image Aspect Ratio: {ratio_width} : {ratio_height}")
 
 # class ImageManager:
 
-#     # def __init__(self, image_id, image_type, pixel_height, pixel_width, channel, file_size):
-#     #     self.image_id = image_id
-#     #     self.image_type = image_type
-#     #     self.pixel_height = pixel_height
-#     #     self.pixel_width = pixel_width
-#     #     self.channel = channel
-#     #     self.file_size = file_size 
+#     def __init__(self, image_id, image_type, pixel_height, pixel_width, channel, file_size):
+#         self.image_id = image_id
+#         self.image_type = image_type
+#         self.pixel_height = pixel_height
+#         self.pixel_width = pixel_width
+#         self.channel = channel
+#         self.file_size = file_size 
 
 #     self.images = [];
 
@@ -69,5 +71,5 @@ class Image:
 #         for image in self.Images:
 #             Images.display_image_info()
 
-image1 = Image("akfh", 3, 1920, 1080, 3, "38kb")
+image1 = Image("akfh", "image1.jpg", 1920, 1080, 3, 38)
 image1.display_image_info()
