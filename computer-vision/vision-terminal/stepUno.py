@@ -47,29 +47,32 @@ class Image:
         print(f"File size: {self.file_size} KB")
         print(f"Image Aspect Ratio: {ratio_width} : {ratio_height}")
 
-# class ImageManager:
+class ImageManager:
 
-#     def __init__(self, image_id, image_type, pixel_height, pixel_width, channel, file_size):
-#         self.image_id = image_id
-#         self.image_type = image_type
-#         self.pixel_height = pixel_height
-#         self.pixel_width = pixel_width
-#         self.channel = channel
-#         self.file_size = file_size 
+    def __init__(self):
+        self.images = []
 
-#     self.images = [];
+    def register_image(self):
+        image_id = input("Enter image ID: ")
+        filename = input("Enter image type: ")
+        width = int(input("Enter pixel heigth: "))
+        height = int(input("Enter pixel width"))
+        channels = int(input("Enter channel: "))
+        file_size = float(input("Enter file size: "))
 
-#     def register_image(imgae):
-#         image_id = input("Enter image ID: ")
-#         image_type = input("Enter image type: ")
-#         pixel_height = int(input("Enter pixel heigth: "))
-#         pixel_width = int(input("Enter pixel width"))
-#         channel = int(input("Enter channel: "))
-#         file_size = float(input("Enter file size: "))
+        new_image = Image(
+            image_id,
+            filename,
+            width,
+            height,
+            channels,
+            file_size
+        )
 
-#     def display_all_images(self):
-#         for image in self.Images:
-#             Images.display_image_info()
+        self.images.append(new_image)
+
+        print("Image successfully registered!")
+
 
 image1 = Image("akfh", "image1.jpg", 1920, 1080, 3, 38)
 image1.display_image_info()
