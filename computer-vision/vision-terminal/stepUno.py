@@ -73,8 +73,8 @@ class ImageManager:
 
         print("Image successfully registered!")
 
-    def search_image(self):
-        id = input("Enter the image ID: ")
+    def search_image(self, id):
+        
         for image in self.images:
             if id == Image.image_id:
                 return image
