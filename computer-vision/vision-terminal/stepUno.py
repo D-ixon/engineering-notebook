@@ -37,7 +37,7 @@ class Image:
 
         ratio_width, ratio_height = self.image_aspect_ratio()
 
-        print(f"Image ID: {self.image_id}")
+        print(f"\nImage ID: {self.image_id}")
         print(f"Filename: {self.filename}")
         print(f"Resolution: {self.width} x {self.height}")
         print(f"Width: {self.width} pixels")
@@ -45,7 +45,7 @@ class Image:
         print(f"Total Pixels: {self.total_pixel()} pixels")
         print(f"Channels: {self.image_color()}")
         print(f"File size: {self.file_size} KB")
-        print(f"Image Aspect Ratio: {ratio_width} : {ratio_height}")
+        print(f"Image Aspect Ratio: {ratio_width} : {ratio_height}\n")
 
 class ImageManager:
 
@@ -73,12 +73,21 @@ class ImageManager:
 
         print("Image successfully registered!")
 
-    def search_image(self, id):
-        
+    def search_image(self, target_id):
         for image in self.images:
-            if id == Image.image_id:
-                return image
+            if image.image_id.lower() == target_id.lower():
+                return image     
+        return None 
 
+    manager = ImageManager()
 
-image1 = Image("akfh", "image1.jpg", 1920, 1080, 3, 38)
+    user_id = input("Enter the Image ID to search for: ")
+    result = manager.search_image(user_id)
+
+    if result is not None:
+        print(f"Match found: {result.file_name} ({result.resolution})")
+    else:
+        print("Image not found.")
+
+image1 = Image("aaa", "image1.jpg", 1920, 1080, 3, 38)
 image1.display_image_info()
