@@ -23,7 +23,7 @@ class Image:
             return "Color RGB"
         return "Unknown"
 
-    def image_aspect_ratio(self):
+    def image_aspect_ratio(self): 
         divisor = gcd(self.width, self.height)
 
         if divisor == 0:
@@ -55,8 +55,8 @@ class ImageManager:
     def register_image(self):
         image_id = input("Enter image ID: ")
         filename = input("Enter image type: ")
-        width = int(input("Enter pixel heigth: "))
-        height = int(input("Enter pixel width"))
+        width = int(input("Enter pixel width: "))
+        height = int(input("Enter pixel height: "))
         channels = int(input("Enter channel: "))
         file_size = float(input("Enter file size: "))
 
@@ -79,15 +79,15 @@ class ImageManager:
                 return image     
         return None 
 
-    manager = ImageManager()
+manager = ImageManager()
 
-    user_id = input("Enter the Image ID to search for: ")
-    result = manager.search_image(user_id)
+user_id = input("Enter the Image ID to search for: ")
+result = manager.search_image(user_id)
 
-    if result is not None:
-        print(f"Match found: {result.file_name} ({result.resolution})")
-    else:
-        print("Image not found.")
+if result is not None:
+    print(f"Match found: {result.filename} ({result.width} x {result.height})")
+else:
+    print("Image not found.")
 
 image1 = Image("aaa", "image1.jpg", 1920, 1080, 3, 38)
 image1.display_image_info()
