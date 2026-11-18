@@ -6,7 +6,7 @@ class Injury{
     
     public Injury(String injuryName, String Severity, int recoveredDays, boolean isRecovered){
         this.injuryName = injuryName;
-        this.severity = Severity;
+        setSeverity(Severity);
         this.recoveryDays = recoveredDays;
         this.isRecovered = isRecovered; 
     }
@@ -34,8 +34,8 @@ class Injury{
         if (days < 0){
             throw new IllegalArgumentException("Recovery days cannot be negative: " + days);
         }
-        if (this.recoveryDays > days){
-            throw new IllegalArgumentException("The player's recovery days cant be more than the remaningrecovery period");
+        if (days > this.recoveryDays){
+            throw new IllegalArgumentException("The player's recovery days cant be more than the remaning recovery period");
         }
         if (this.recoveryDays == 0 ){
             this.isRecovered = true;
