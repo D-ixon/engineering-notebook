@@ -107,7 +107,7 @@ public class InjuryRecovery {
         System.out.println("========= INJURY AND RECOVERY SYSTEM =========");
 
         // Create an injury requiring 20 days of recovery
-        Injury player = new Injury("Felix", "Moderate", 20);
+        Injury player = new Injury("Felix", "State", 20);
 
         player.displayInjuryInfo();
 
