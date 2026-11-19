@@ -1,3 +1,5 @@
+import java.util.Random;
+
 class MatchDay{
     String homeTeam;
     String awayTeam;
@@ -19,17 +21,24 @@ class MatchDay{
         this.matchDuration = matchDuration;
     }
 
-    public void simulateMatch(boolean yesHome, boolean yesAway, int munite, String goalScorer, String goalAsister){
+    public void simulateMatch(String homeTeam, String awayTeam){
 
-        System.out.println("And its show Time!");
+        System.out.println("And its show Time! " + this.homeTeam + " vs " + this.awayTeam + "\n");
 
-        if (homeGoal = yesHome){
-            this.homeTeamScore += 1;
-            System.out.println(" Goal For " + this.homeTeam + "in the " + munite 
-            + "beautiful assist by " + goalAsister + " and " + goalScorer + "nets it in");
-        }else if (awayGoal = yesAway){
-            this.awayTeamScore += 1;
-            System.out.println(" Goal For " + this.awayTeam + "in the " + munite + "beautiful assist by " + goalAsister + " and " + goalScorer + "nets it in");
+        Random rand = new Random();
+        int eventChance = rand.nextInt(100);
+        
+        for (int minute = 1; minute <= 90; minute++){
+            if (eventChance < 3){
+                boolean isHomeGoal = rand.nextBoolean();
+                if (isHomeGoal){
+                    homeTeamScore++;
+                    System.out.println(" Goal! " + homeTeam + homeTeamScore + "-" + awayTeam + awayTeamScore +"\n");
+                }else{
+                    awayTeamScore++;
+                    System.out.println(" Goal! " + homeTeam + homeTeamScore + "-" + awayTeam + awayTeamScore +"\n");
+                }
+            } 
         }
         
     }
