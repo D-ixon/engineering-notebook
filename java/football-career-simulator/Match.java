@@ -7,11 +7,6 @@ class MatchDay{
     int awayTeamScore;
     int matchDuration;
 
-    int minuteScored;
-    boolean homeGoal;
-    boolean awayGoal;
-    int stoppageTime;
-
 
     public MatchDay(String homeTeam, String awayTeam, int homeTeamScore, int awayTeamScore, int matchDuration){
         this.homeTeam = homeTeam;
@@ -33,10 +28,10 @@ class MatchDay{
                 boolean isHomeGoal = rand.nextBoolean();
                 if (isHomeGoal){
                     homeTeamScore++;
-                    System.out.println(" Goal! " + homeTeam + homeTeamScore + "-" + awayTeam + awayTeamScore +"\n");
+                    System.out.println(minute + "' - Goal! " + homeTeam + " " + homeTeamScore + " - " + awayTeam + " " + awayTeamScore);
                 }else{
                     awayTeamScore++;
-                    System.out.println(" Goal! " + homeTeam + homeTeamScore + "-" + awayTeam + awayTeamScore +"\n");
+                    System.out.println(minute + "' - Goal! " + homeTeam + " " + homeTeamScore + " - " + awayTeam + " " + awayTeamScore);
                 }
             }else if (eventChance < 8) {
                 String bookedTeam = rand.nextBoolean() ? homeTeam : awayTeam;
@@ -50,20 +45,27 @@ class MatchDay{
             // ~6% chance for a near-miss / big save to add flavor
             else if (eventChance < 15) {
                 String attackingTeam = rand.nextBoolean() ? homeTeam : awayTeam;
-                System.out.println(minute + "' - Close call! Great save denies " + attackingTeam + ".");
+                System.out.println(minute + "' - Close call! Great save!!!!! " + attackingTeam + ".");
             }
 
             // Halftime marker
             if (minute == 45) {
                 System.out.println("\n--- HALF TIME: " + homeTeam + " " + homeTeamScore + " - " + awayTeamScore + " " + awayTeam + " ---\n");
             }
+            
         }
-        
+        System.out.println("\n=== FULL TIME ===");
+        System.out.println("Final Score: " + homeTeam + " " + homeTeamScore + " - " + awayTeamScore + " " + awayTeam);
         
     }
 }
 public class Match {
     public static void main(String[] args){
 
+        Tracker track = new Tracker("Anthony", null, null, 0, 0, 0, 
+        0, 0);
+        
+        MatchDay match = new MatchDay("Leeds", "Spurs", 0, 0, 90);
+        match.simulateMatch("Leeds", "Spurs");
     }
 }
