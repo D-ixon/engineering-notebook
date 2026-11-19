@@ -38,8 +38,27 @@ class MatchDay{
                     awayTeamScore++;
                     System.out.println(" Goal! " + homeTeam + homeTeamScore + "-" + awayTeam + awayTeamScore +"\n");
                 }
+            }else if (eventChance < 8) {
+                String bookedTeam = rand.nextBoolean() ? homeTeam : awayTeam;
+                System.out.println(minute + "' - YELLOW CARD for " + bookedTeam + ".");
             } 
+            // ~1% chance for a red card
+            else if (eventChance == 8) {
+                String sentOffTeam = rand.nextBoolean() ? homeTeam : awayTeam;
+                System.out.println(minute + "' - RED CARD! A player from " + sentOffTeam + " is sent off!");
+            } 
+            // ~6% chance for a near-miss / big save to add flavor
+            else if (eventChance < 15) {
+                String attackingTeam = rand.nextBoolean() ? homeTeam : awayTeam;
+                System.out.println(minute + "' - Close call! Great save denies " + attackingTeam + ".");
+            }
+
+            // Halftime marker
+            if (minute == 45) {
+                System.out.println("\n--- HALF TIME: " + homeTeam + " " + homeTeamScore + " - " + awayTeamScore + " " + awayTeam + " ---\n");
+            }
         }
+        
         
     }
 }
