@@ -20,10 +20,25 @@ class MatchDay{
 
         System.out.println("And its show Time! " + this.homeTeam + " vs " + this.awayTeam + "\n");
 
+        Tracker[] track = new Tracker[4];
+        track[0] = new Tracker("Anthony", "LW", "Leeds", 21, 77, 78, 78, 80);
+        track[1] = new Tracker("Williams", "LW", "Leeds", 29, 97, 78, 78, 80);
+        track[2] = new Tracker("Jake", "ST", "Spurs", 24, 79, 78, 78, 80);
+        track[3] = new Tracker("Green", "DM", "Spurs", 21, 77, 78, 78, 80);
+
         Random rand = new Random();
         int eventChance = rand.nextInt(100);
         
         for (int minute = 1; minute <= 90; minute++){
+            for (Tracker track1 : track) {
+                if (rand.nextInt(100) < 5) {
+                    // 5% chance for a player to score or assist
+                    int goals = rand.nextInt(2); // 0 or 1 goal
+                    int assists = rand.nextInt(2); // 0 or 1 assist
+                    double rating = 6.0 + (rand.nextDouble() * 4.0); // Random rating between 6.0 and 10.0
+                    track1.playMatch(goals, assists, rating);
+                }
+            }
             if (eventChance < 3){
                 boolean isHomeGoal = rand.nextBoolean();
                 if (isHomeGoal){
@@ -58,13 +73,11 @@ class MatchDay{
         System.out.println("Final Score: " + homeTeam + " " + homeTeamScore + " - " + awayTeamScore + " " + awayTeam);
         
     }
+
 }
 public class Match {
     public static void main(String[] args){
 
-        Tracker track = new Tracker("Anthony", null, null, 0, 0, 0, 
-        0, 0);
-        
         MatchDay match = new MatchDay("Leeds", "Spurs", 0, 0, 90);
         match.simulateMatch("Leeds", "Spurs");
     }
