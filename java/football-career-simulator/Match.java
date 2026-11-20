@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 class MatchDay{
@@ -28,7 +30,7 @@ class MatchDay{
 
     Random rand = new Random();
 
-    for (int minute = 1; minute < matchDuration; minute++) {
+    for (int minute = 1; minute <= matchDuration; minute++) {
 
         int eventChance = rand.nextInt(100);
 
@@ -45,7 +47,7 @@ class MatchDay{
             }
 
             // 1. Collect all players from the scoring team
-            List<Tracker> eligibleScorers = new ArrayList<>();
+            List <Tracker> eligibleScorers = new ArrayList<>();
             for (Tracker player : track) {
                 if (player.getClub().equals(scoringTeam)) {
                     eligibleScorers.add(player);
@@ -57,12 +59,14 @@ class MatchDay{
                 Tracker scorer = eligibleScorers.get(rand.nextInt(eligibleScorers.size()));
 
                 System.out.println(minute + "' - Goal! " + scorer.getName() + " (" + scoringTeam + ") "
-                        + this.homeTeam + " " + this.homeTeamScore + " - "
-                        + this.awayTeam + " " + this.awayTeamScore);
+                    + this.homeTeam + " " + this.homeTeamScore + " - "
+                    + this.awayTeam + " " + this.awayTeamScore
+                );
             } else {
                 // Fallback if no players in 'track' belong to scoringTeam
                 System.out.println(minute + "' - Goal! " + this.homeTeam + " " + this.homeTeamScore + " - "
-                        + this.awayTeam + " " + this.awayTeamScore);
+                    + this.awayTeam + " " + this.awayTeamScore
+                );
             }
 
         } else if (eventChance < 8) {
