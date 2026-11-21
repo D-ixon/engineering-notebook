@@ -68,6 +68,7 @@ class MatchDay{
                 */
                 if (!eligibleScorers.isEmpty()) {
                     Tracker scorer = eligibleScorers.get(rand.nextInt(eligibleScorers.size()));
+                    scorer.playMatch(1, 0, 0.0);
 
                     System.out.println(minute + "' - Goal! " + scorer.getName() + " (" + scoringTeam + ") "
                         + this.homeTeam + " " + this.homeTeamScore + " - "
