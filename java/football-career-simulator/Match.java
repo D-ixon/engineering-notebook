@@ -22,6 +22,7 @@ class MatchDay{
 
         System.out.println("And its show Time! " + this.homeTeam + " vs " + this.awayTeam + "\n");
 
+
         // Array Object of player - so as to be able to iclude goal scorers 
         Tracker[] track = new Tracker[4];
         track[0] = new Tracker("Anthony", "LW", "Leeds", 21, 77, 78, 78, 80);
@@ -68,7 +69,13 @@ class MatchDay{
                 */
                 if (!eligibleScorers.isEmpty()) {
                     Tracker scorer = eligibleScorers.get(rand.nextInt(eligibleScorers.size()));
-                    scorer.playMatch(1, 0, 0.0);
+                    int[] matchGoals = new int[track.length]; // Array to keep track of goals scored by each player
+                    for (int i = 0; i < track.length; i++){
+                        if (track[i] == scorer){
+                            matchGoals[i]++;
+                            break;
+                        }
+                    }
 
                     System.out.println(minute + "' - Goal! " + scorer.getName() + " (" + scoringTeam + ") "
                         + this.homeTeam + " " + this.homeTeamScore + " - "
