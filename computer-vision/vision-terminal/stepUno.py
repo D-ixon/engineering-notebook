@@ -73,21 +73,33 @@ class ImageManager:
 
         print("Image successfully registered!")
 
+    # seraching an image using its ID
     def search_image(self, target_id):
         for image in self.images:
             if image.image_id.lower() == target_id.lower():
                 return image     
         return None 
 
-manager = ImageManager()
+    # deleting an image using its ID
+    def remove_image(self, target_id):
+        for image in self.images:
+            if image.image_id.lower() == target_id.lower:
+                self.images.remove(image)
+    
+    # display all images 
+    def display_all_images(self):
+        for image in self.images:
+            print(image)
+        return None
 
-user_id = input("Enter the Image ID to search for: ")
-result = manager.search_image(user_id)
+    # count all images
+    def image_counter(self):
+        print(len(self.images))
 
-if result is not None:
-    print(f"Match found: {result.filename} ({result.width} x {result.height})")
-else:
-    print("Image not found.")
+    # find largest image in terms of size
+    def largest_image(self):
+        for image in self.images:
+            largest_image = self.images[0]
 
 image1 = Image("aaa", "image1.jpg", 1920, 1080, 3, 38)
 image1.display_image_info()
