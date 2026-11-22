@@ -83,23 +83,37 @@ class ImageManager:
     # deleting an image using its ID
     def remove_image(self, target_id):
         for image in self.images:
-            if image.image_id.lower() == target_id.lower:
+            if image.image_id.lower() == target_id.lower():
                 self.images.remove(image)
+                return"image successfully removed"
+        return (f"image id {target_id} not found")
     
     # display all images 
     def display_all_images(self):
         for image in self.images:
-            print(image)
+            image.display_image_info()
         return None
 
     # count all images
     def image_counter(self):
-        print(len(self.images))
+        return len(self.images)
 
     # find largest image in terms of size
     def largest_image(self):
-        for image in self.images:
-            largest_image = self.images[0]
+        largest_image = self.images[0]
+
+        for i in range(1, len(self.images)):
+            if largest_image.file_size < self.images[i].file_size:
+                largest_image = self.images[i]
+                
+        largest_image.display_image_info()
+
+    # images statistics and analysis
+
+    # CLI menu
+
+
+
 
 image1 = Image("aaa", "image1.jpg", 1920, 1080, 3, 38)
 image1.display_image_info()
