@@ -8,4 +8,4 @@ This directory contains 12 solved tests covering java concepts ranging from:
 - polymorphism
 - abstract classes
 - interfaces
-- exception handling (specifically try and catch)
+- exception handling (specifically try and catch and throw and throws)
