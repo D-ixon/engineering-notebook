@@ -13,4 +13,10 @@ module example_and_gate (
     assign and_temp = input_1 & input_2;
     assign and_result = and_temp;
 
+    // combinational always block (verilog)
+    always @ (input_1 or input_2)
+        begin 
+            and_gate = input_1 & input_2;
+        end
+
 endmodule
