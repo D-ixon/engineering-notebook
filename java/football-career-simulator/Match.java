@@ -33,6 +33,9 @@ class MatchDay{
         // A random object rand is created from the java utility Random class
         Random rand = new Random();
 
+        // Array to keep track of goals scored by each player
+        int[] matchGoals = new int[track.length];
+
         // For loop - simulates match including goals, goal scorers, events like yellow cards, red cards. This is made possible using randomness.
         for (int minute = 1; minute <= matchDuration; minute++) {
             
@@ -69,7 +72,7 @@ class MatchDay{
                 */
                 if (!eligibleScorers.isEmpty()) {
                     Tracker scorer = eligibleScorers.get(rand.nextInt(eligibleScorers.size()));
-                    int[] matchGoals = new int[track.length]; // Array to keep track of goals scored by each player
+
                     for (int i = 0; i < track.length; i++){
                         if (track[i] == scorer){
                             matchGoals[i]++;
@@ -109,6 +112,15 @@ class MatchDay{
                 System.out.println("\n--- HALF TIME: " + this.homeTeam + " " + this.homeTeamScore + " - "
                         + this.awayTeamScore + " " + this.awayTeam + " ---\n");
             }
+
+            // record player statistics after every match
+            for (Tracker player : track){
+                for (int i = 0; i < matchGoals.length; i++){
+                    player.playMatch(matchGoals[i], 0, 7.0);
+                }
+            }
+
+            
         }
 
     System.out.println("\n=== FULL TIME ===");
