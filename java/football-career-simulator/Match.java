@@ -114,11 +114,11 @@ class MatchDay{
             }
 
             // record player statistics after every match
-            for (Tracker player : track){
-                for (int i = 0; i < matchGoals.length; i++){
-                    player.playMatch(matchGoals[i], 0, 7.0);
-                }
+
+            for (int i = 0; i < track.length; i++){
+                track[i].playMatch(matchGoals[i], 0, 7.0);
             }
+            
 
             
         }
